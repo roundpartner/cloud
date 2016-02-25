@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "rackspace/php-opencloud": "dev-master"
+    "rackspace/php-opencloud": "^1.16"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8"
