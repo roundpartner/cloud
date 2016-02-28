@@ -9,10 +9,22 @@
       "email": "tom@roundpartner.co.uk"
     }
   ],
+  "repositories": [
+    {
+      "type": "artifact",
+      "url": "/opt/roundpartner/library/rp-conf"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "Cloud": "src/"
+    }
+  },
   "require": {
     "rackspace/php-opencloud": "^1.16"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.8"
+    "phpunit/phpunit": "^4.8",
+    "rp/conf": "*"
   }
 }
