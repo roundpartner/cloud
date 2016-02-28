@@ -13,6 +13,10 @@
     {
       "type": "artifact",
       "url": "/opt/roundpartner/library/rp-conf"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/roundpartner/verifyhash"
     }
   ],
   "autoload": {
@@ -21,7 +25,8 @@
     }
   },
   "require": {
-    "rackspace/php-opencloud": "^1.16"
+    "rackspace/php-opencloud": "^1.16",
+    "roundpartner/verifyhash": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8",
