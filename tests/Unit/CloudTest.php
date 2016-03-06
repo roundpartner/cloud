@@ -32,10 +32,7 @@ class CloudTest extends PHPUnit_Framework_TestCase
     public function testGetMessages()
     {
         $messages = $this->client->getMessages('tasks_dev');
-        foreach($messages as $message) {
-            $body = $message;
-            var_dump($body);
-        }
+        $this->assertContainsOnlyInstancesOf('\Cloud\Entity\Task', $messages);
     }
 
 }

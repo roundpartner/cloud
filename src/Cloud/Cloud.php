@@ -2,7 +2,7 @@
 
 namespace Cloud;
 
-use VerifyHash\VerifyHash;
+use RoundPartner\VerifyHash\VerifyHash;
 
 class Cloud
 {
@@ -12,8 +12,18 @@ class Cloud
      */
     protected $client;
 
+    /**
+     * @var string
+     */
     protected $secret;
 
+    /**
+     * Cloud constructor.
+     *
+     * @param string $username
+     * @param string $apiKey
+     * @param string $secret
+     */
     public function __construct($username, $apiKey, $secret)
     {
         $this->client = new \OpenCloud\Rackspace(\OpenCloud\Rackspace::UK_IDENTITY_ENDPOINT, array(
@@ -23,6 +33,11 @@ class Cloud
         $this->secret = $secret;
     }
 
+    /**
+     * @param string $queue
+     * @param mixed $message
+     * @return bool
+     */
     public function addMessage($queue, $message)
     {
         $verifyHash = new VerifyHash($this->secret);
@@ -38,6 +53,11 @@ class Cloud
         return $queueService->createMessage($object);
     }
 
+    /**
+     * @param string $queue
+     * @return mixed[]
+     * @throws \Exception
+     */
     public function getMessages($queue)
     {
         $queueService = $this->getQueue($queue);
@@ -61,6 +81,12 @@ class Cloud
         return $response;
     }
 
+    /**
+     * @param string $queue
+     * @param string $serviceName
+     * @param string $region
+     * @return \OpenCloud\Queues\Resource\Queue
+     */
     public function getQueue($queue, $serviceName='cloudQueues', $region='LON')
     {
         $service = $this->client->queuesService($serviceName, $region);
