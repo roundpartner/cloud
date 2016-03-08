@@ -55,29 +55,21 @@ class Cloud
 
     /**
      * @param string $queue
+     * @param integer $limit
+     *
      * @return mixed[]
      * @throws \Exception
      */
-    public function getMessages($queue)
+    public function getMessages($queue, $limit = 10)
     {
         $queueService = $this->getQueue($queue);
         $messages = $queueService->claimMessages(array(
-            'limit' => 10,
+            'limit' => $limit,
             'grace' => 60,
             'ttl'   => 500
         ));
-        $response = array();
-        foreach ($messages as $message) {
-            $body = $message->getBody();
-            if (isset($body->serial)) {
-                $verifyHash = new VerifyHash($this->secret);
-                if ($verifyHash->verify($body->sha1, $body->serial)) {
-                    $response[] = unserialize($body->serial);
-                } else {
-                    throw new \Exception('secret could not be verified');
-                }
-            }
-        }
+
+        $response = $this->processMessages($messages);
         return $response;
     }
 
@@ -92,6 +84,32 @@ class Cloud
         $service = $this->client->queuesService($serviceName, $region);
         $service->setClientId();
         return $service->getQueue($queue);
+    }
+
+    /**
+     * @param $messages
+     * @return array
+     * @throws \Exception
+     */
+    private function processMessages($messages)
+    {
+        $response = array();
+        if ($messages === false) {
+            return $response;
+        }
+
+        foreach ($messages as $message) {
+            $body = $message->getBody();
+            if (isset($body->serial)) {
+                $verifyHash = new VerifyHash($this->secret);
+                if ($verifyHash->verify($body->sha1, $body->serial)) {
+                    $response[] = unserialize($body->serial);
+                } else {
+                    throw new \Exception('secret could not be verified');
+                }
+            }
+        }
+        return $response;
     }
 
 
