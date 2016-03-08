@@ -5,6 +5,7 @@ namespace Cloud;
 use RoundPartner\VerifyHash\VerifyHash;
 
 class Cloud
+implements CloudInterface
 {
 
     /**
