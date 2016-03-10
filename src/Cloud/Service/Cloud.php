@@ -4,8 +4,7 @@ namespace Cloud\Service;
 
 use OpenCloud\Rackspace;
 
-class Cloud extends Rackspace
-implements ServiceInterface
+class Cloud extends Rackspace implements ServiceInterface
 {
 
     public function __construct($username, $apiKey)
@@ -15,6 +14,7 @@ implements ServiceInterface
             array(
                 'username' => $username,
                 'apiKey' => $apiKey,
-            ));
+            )
+        );
     }
 }

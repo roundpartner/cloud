@@ -29,7 +29,4 @@ interface CloudInterface
      * @throws \Exception
      */
     public function getMessages($queue, $limit = 10);
-
-
-
 }

@@ -4,8 +4,7 @@ namespace Cloud;
 
 use RoundPartner\VerifyHash\VerifyHash;
 
-class Cloud
-implements CloudInterface
+class Cloud implements CloudInterface
 {
 
     /**
@@ -79,7 +78,7 @@ implements CloudInterface
      *
      * @return \OpenCloud\Queues\Resource\Queue
      */
-    protected function getQueue($queue, $serviceName='cloudQueues', $region='LON')
+    protected function getQueue($queue, $serviceName = 'cloudQueues', $region = 'LON')
     {
         $service = $this->client->queuesService($serviceName, $region);
         $service->setClientId();
@@ -112,6 +111,4 @@ implements CloudInterface
         }
         return $response;
     }
-
-
 }
