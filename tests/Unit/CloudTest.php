@@ -14,16 +14,6 @@ class CloudTest extends PHPUnit_Framework_TestCase
         $this->client = new \Cloud\Cloud($config['opencloud']['username'], $config['opencloud']['key'], $config['opencloud']['secret']);
     }
 
-    public function testCreateClass()
-    {
-        $this->assertInstanceOf('\Cloud\Cloud', $this->client);
-    }
-
-    public function testGetQueue()
-    {
-        $this->assertInstanceOf('OpenCloud\Queues\Resource\Queue', $this->client->getQueue('tasks_dev'));
-    }
-
     public function testAddMessage()
     {
         $this->client->addMessage('tasks_dev', new \Cloud\Entity\Task());

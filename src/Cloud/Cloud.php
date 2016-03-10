@@ -27,16 +27,14 @@ implements CloudInterface
      */
     public function __construct($username, $apiKey, $secret)
     {
-        $this->client = new \OpenCloud\Rackspace(\OpenCloud\Rackspace::UK_IDENTITY_ENDPOINT, array(
-            'username' => $username,
-            'apiKey' => $apiKey,
-        ));
+        $this->client = new \Cloud\Service\Cloud($username, $apiKey);
         $this->secret = $secret;
     }
 
     /**
      * @param string $queue
      * @param mixed $message
+     *
      * @return bool
      */
     public function addMessage($queue, $message)
@@ -78,9 +76,10 @@ implements CloudInterface
      * @param string $queue
      * @param string $serviceName
      * @param string $region
+     *
      * @return \OpenCloud\Queues\Resource\Queue
      */
-    public function getQueue($queue, $serviceName='cloudQueues', $region='LON')
+    protected function getQueue($queue, $serviceName='cloudQueues', $region='LON')
     {
         $service = $this->client->queuesService($serviceName, $region);
         $service->setClientId();
@@ -89,6 +88,7 @@ implements CloudInterface
 
     /**
      * @param $messages
+     *
      * @return array
      * @throws \Exception
      */
