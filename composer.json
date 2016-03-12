@@ -24,6 +24,11 @@
       "RoundPartner\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "RoundPartner\\Test\\": "tests/"
+    },
+  },
   "require": {
     "rackspace/php-opencloud": "^1.16",
     "roundpartner/verify-hash": "dev-master"
