@@ -107,6 +107,7 @@ class Cloud implements CloudInterface
                     throw new \Exception('secret could not be verified');
                 }
             }
+            $message->delete($message->getClaimIdFromHref());
         }
         return $response;
     }
