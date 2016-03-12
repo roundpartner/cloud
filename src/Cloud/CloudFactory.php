@@ -2,8 +2,6 @@
 
 namespace RoundPartner\Cloud;
 
-use Cloud\Cloud;
-
 class CloudFactory
 {
 
@@ -18,7 +16,7 @@ class CloudFactory
      */
     public static function create($username, $apiKey, $secret)
     {
-        $client = new \Cloud\Service\Cloud($username, $apiKey);
+        $client = new Service\Cloud($username, $apiKey);
         return new Cloud($client, $secret);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cloud\Service;
+namespace RoundPartner\Cloud\Service;
 
 use OpenCloud\Rackspace;
 

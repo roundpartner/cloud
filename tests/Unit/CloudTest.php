@@ -4,7 +4,7 @@ class CloudTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \Cloud\Cloud
+     * @var \RoundPartner\Cloud\Cloud
      */
     protected $client;
 
@@ -16,18 +16,18 @@ class CloudTest extends PHPUnit_Framework_TestCase
 
     public function testAddMessage()
     {
-        $this->client->addMessage('tasks_dev', new \Cloud\Entity\Task());
+        $this->client->addMessage('tasks_dev', new \RoundPartner\Cloud\Entity\Task());
     }
 
     public function testGetMessages()
     {
         $messages = $this->client->getMessages('tasks_dev');
-        $this->assertContainsOnlyInstancesOf('\Cloud\Entity\Task', $messages);
+        $this->assertContainsOnlyInstancesOf('\RoundPartner\Cloud\Entity\Task', $messages);
     }
 
     public function testGetMessagesMultiple()
     {
-        $this->client->addMessage('tasks_dev', new \Cloud\Entity\Task());
+        $this->client->addMessage('tasks_dev', new \RoundPartner\Cloud\Entity\Task());
         $this->client->getMessages('tasks_dev', 100);
         $messages = $this->client->getMessages('tasks_dev');
         $this->assertEmpty($messages);

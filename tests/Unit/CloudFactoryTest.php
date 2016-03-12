@@ -11,6 +11,6 @@ class CloudFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $config = require dirname(__DIR__) . '/../vendor/rp/conf/auth.php';
         $instance = CloudFactory::create($config['opencloud']['username'], $config['opencloud']['key'], $config['opencloud']['secret']);
-        $this->assertInstanceOf('\Cloud\Cloud', $instance);
+        $this->assertInstanceOf('\RoundPartner\Cloud\Cloud', $instance);
     }
 }

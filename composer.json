@@ -20,9 +20,6 @@
     }
   ],
   "autoload": {
-    "psr-0": {
-      "Cloud": "src/"
-    },
     "psr-4": {
       "RoundPartner\\": "src/"
     }

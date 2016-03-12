@@ -1,6 +1,6 @@
 <?php
 
-namespace Cloud;
+namespace RoundPartner\Cloud;
 
 use RoundPartner\VerifyHash\VerifyHash;
 
