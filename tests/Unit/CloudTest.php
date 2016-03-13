@@ -10,8 +10,8 @@ class CloudTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $config = require dirname(__DIR__) . '/../vendor/rp/conf/auth.php';
-        $this->client = \RoundPartner\Cloud\CloudFactory::create($config['opencloud']['username'], $config['opencloud']['key'], $config['opencloud']['secret']);
+        $config = \RoundPartner\Conf\Service::get('opencloud');
+        $this->client = \RoundPartner\Cloud\CloudFactory::create($config['username'], $config['key'], $config['secret']);
     }
 
     public function testAddMessage()

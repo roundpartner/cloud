@@ -11,8 +11,8 @@
   ],
   "repositories": [
     {
-      "type": "artifact",
-      "url": "/opt/roundpartner/library/rp-conf"
+      "type": "git",
+      "url": "https://github.com/roundpartner/configuration"
     },
     {
       "type": "git",
@@ -36,6 +36,6 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*",
     "phpunit/phpunit": "^4.8",
-    "rp/conf": "*"
+    "roundpartner/configuration": "dev-master"
   }
 }
