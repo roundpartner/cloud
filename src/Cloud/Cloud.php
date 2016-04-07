@@ -18,6 +18,11 @@ class Cloud implements CloudInterface
     protected $secret;
 
     /**
+     * @var QueueInterface[]
+     */
+    protected $queueServices;
+
+    /**
      * Cloud constructor.
      *
      * @param Service\Cloud $client
@@ -36,8 +41,11 @@ class Cloud implements CloudInterface
      */
     public function queue($queue)
     {
-        $queueInstance = $this->getQueue($queue);
-        return new Queue($queueInstance, $this->secret);
+        if (!isset($this->queueServices[$queue])) {
+            $queueInstance = $this->getQueue($queue);
+            $this->queueServices[$queue] = new Queue($queueInstance, $this->secret);
+        }
+        return $this->queueServices[$queue];
     }
 
     /**
