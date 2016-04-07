@@ -19,5 +19,4 @@ class CloudFactory
         $client = new Service\Cloud($username, $apiKey);
         return new Cloud($client, $secret);
     }
-
 }

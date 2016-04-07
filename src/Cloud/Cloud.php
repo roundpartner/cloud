@@ -31,44 +31,41 @@ class Cloud implements CloudInterface
 
     /**
      * @param string $queue
+     *
+     * @return Queue
+     */
+    public function queue($queue)
+    {
+        $queueInstance = $this->getQueue($queue);
+        return new Queue($queueInstance, $this->secret);
+    }
+
+    /**
+     * @param string $queue
      * @param mixed $message
      * @param int $ttl
+     *
+     * @deprecated use queue method
      *
      * @return bool
      */
     public function addMessage($queue, $message, $ttl = 600)
     {
-        $verifyHash = new VerifyHash($this->secret);
-        $messageString = serialize($message);
-        $object = array(
-            'body' => array(
-                'serial' => $messageString,
-                'sha1' => $verifyHash->hash($messageString),
-            ),
-            'ttl' => $ttl
-        );
-        $queueService = $this->getQueue($queue);
-        return $queueService->createMessage($object);
+        return $this->queue($queue)->addMessage($message, $ttl);
     }
 
     /**
      * @param string $queue
      * @param integer $limit
      *
+     * @deprecated use queue method
+     *
      * @return mixed[]
      * @throws \Exception
      */
     public function getMessages($queue, $limit = 10)
     {
-        $queueService = $this->getQueue($queue);
-        $messages = $queueService->claimMessages(array(
-            'limit' => $limit,
-            'grace' => 60,
-            'ttl'   => 500
-        ));
-
-        $response = $this->processMessages($messages);
-        return $response;
+        return $this->queue($queue)->getMessages($limit);
     }
 
     /**
@@ -83,33 +80,5 @@ class Cloud implements CloudInterface
         $service = $this->client->queuesService($serviceName, $region);
         $service->setClientId();
         return $service->getQueue($queue);
-    }
-
-    /**
-     * @param $messages
-     *
-     * @return array
-     * @throws \Exception
-     */
-    private function processMessages($messages)
-    {
-        $response = array();
-        if ($messages === false) {
-            return $response;
-        }
-
-        foreach ($messages as $message) {
-            $body = $message->getBody();
-            if (isset($body->serial)) {
-                $verifyHash = new VerifyHash($this->secret);
-                if ($verifyHash->verify($body->sha1, $body->serial)) {
-                    $response[] = unserialize($body->serial);
-                } else {
-                    throw new \Exception('secret could not be verified');
-                }
-            }
-            $message->delete($message->getClaimIdFromHref());
-        }
-        return $response;
     }
 }
