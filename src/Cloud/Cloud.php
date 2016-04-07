@@ -32,10 +32,11 @@ class Cloud implements CloudInterface
     /**
      * @param string $queue
      * @param mixed $message
+     * @param int $ttl
      *
      * @return bool
      */
-    public function addMessage($queue, $message)
+    public function addMessage($queue, $message, $ttl = 600)
     {
         $verifyHash = new VerifyHash($this->secret);
         $messageString = serialize($message);
@@ -44,7 +45,7 @@ class Cloud implements CloudInterface
                 'serial' => $messageString,
                 'sha1' => $verifyHash->hash($messageString),
             ),
-            'ttl' => 500,
+            'ttl' => $ttl
         );
         $queueService = $this->getQueue($queue);
         return $queueService->createMessage($object);

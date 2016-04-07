@@ -16,9 +16,11 @@ interface CloudInterface
     /**
      * @param string $queue
      * @param mixed $message
+     * @param int $ttl
+     *
      * @return bool
      */
-    public function addMessage($queue, $message);
+    public function addMessage($queue, $message, $ttl = 600);
 
     /**
      * @param string $queue
