@@ -9,10 +9,26 @@ class CloudTest extends PHPUnit_Framework_TestCase
      */
     protected $client;
 
+    /**
+     * @var \RoundPartner\Cloud\Message[]
+     */
+    protected $messages;
+
     public function setUp()
     {
         $config = \RoundPartner\Conf\Service::get('opencloud');
         $this->client = \RoundPartner\Cloud\CloudFactory::create($config['username'], $config['key'], $config['secret']);
+        $this->messages = array();
+    }
+
+    /**
+     * Clean up
+     */
+    public function tearDown()
+    {
+        foreach ($this->messages as $message) {
+            $message->delete();
+        }
     }
 
     public function testQueue()
@@ -27,8 +43,15 @@ class CloudTest extends PHPUnit_Framework_TestCase
 
     public function testGetMessages()
     {
-        $messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
-        $this->assertContainsOnlyInstancesOf('\RoundPartner\Cloud\Entity\Task', $messages);
+        $this->messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
+        $this->assertContainsOnlyInstancesOf('\RoundPartner\Cloud\Message', $this->messages);
+    }
+
+    public function testGetMessageIsTask()
+    {
+        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Entity\Task());
+        $this->messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
+        $this->assertInstanceOf('\RoundPartner\Cloud\Entity\Task', $this->messages[0]->getBody());
     }
 
     public function testGetMessagesMultiple()

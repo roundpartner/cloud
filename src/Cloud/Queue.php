@@ -2,7 +2,6 @@
 
 namespace RoundPartner\Cloud;
 
-use OpenCloud\Queues\Resource\Message;
 use RoundPartner\VerifyHash\VerifyHash;
 
 class Queue implements QueueInterface
@@ -53,7 +52,7 @@ class Queue implements QueueInterface
     /**
      * @param integer $limit
      *
-     * @return mixed[]
+     * @return Message[]
      *
      * @throws \Exception
      */
@@ -65,35 +64,26 @@ class Queue implements QueueInterface
             'ttl'   => 500
         ));
 
-        $response = $this->processMessages($messages);
-        return $response;
+        return $this->processMessages($messages);
     }
 
     /**
-     * @param Message[] $messages
+     * @param \OpenCloud\Queues\Resource\Message[] $messages
      *
-     * @return array
-     *
+     * @return Message[]
+     * 
      * @throws \Exception
      */
     private function processMessages($messages)
     {
         $response = array();
+
         if ($messages === false) {
             return $response;
         }
 
         foreach ($messages as $message) {
-            $body = $message->getBody();
-            if (isset($body->serial)) {
-                $verifyHash = new VerifyHash($this->secret);
-                if ($verifyHash->verify($body->sha1, $body->serial)) {
-                    $response[] = unserialize($body->serial);
-                } else {
-                    throw new \Exception('secret could not be verified');
-                }
-            }
-            $message->delete($message->getClaimIdFromHref());
+            $response[] = new Message($message, $this->secret);
         }
         return $response;
     }

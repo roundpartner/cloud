@@ -2,8 +2,6 @@
 
 namespace RoundPartner\Cloud;
 
-use RoundPartner\VerifyHash\VerifyHash;
-
 class Cloud implements CloudInterface
 {
 
@@ -69,11 +67,18 @@ class Cloud implements CloudInterface
      * @deprecated use queue method
      *
      * @return mixed[]
+     * 
      * @throws \Exception
      */
     public function getMessages($queue, $limit = 10)
     {
-        return $this->queue($queue)->getMessages($limit);
+        $response = array();
+        $messages = $this->queue($queue)->getMessages($limit);
+        foreach ($messages as $message) {
+            $response[] = $message->getBody();
+            $message->delete();
+        }
+        return $response;
     }
 
     /**
