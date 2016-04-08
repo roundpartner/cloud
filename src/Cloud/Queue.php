@@ -50,18 +50,20 @@ class Queue implements QueueInterface
     }
 
     /**
-     * @param integer $limit
+     * @param int $limit
+     * @param int $grace
+     * @param int $ttl
      *
      * @return Message[]
      *
      * @throws \Exception
      */
-    public function getMessages($limit = 10)
+    public function getMessages($limit = 10, $grace = 60, $ttl = 600)
     {
         $messages = $this->service->claimMessages(array(
             'limit' => $limit,
-            'grace' => 60,
-            'ttl'   => 500
+            'grace' => $grace,
+            'ttl'   => $ttl
         ));
 
         return $this->processMessages($messages);
