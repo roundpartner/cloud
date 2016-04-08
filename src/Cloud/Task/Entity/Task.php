@@ -1,6 +1,6 @@
 <?php
 
-namespace RoundPartner\Cloud\Entity;
+namespace RoundPartner\Cloud\Task\Entity;
 
 class Task
 {

@@ -38,7 +38,7 @@ class CloudTest extends PHPUnit_Framework_TestCase
 
     public function testAddMessage()
     {
-        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Entity\Task());
+        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Task\Entity\Task());
     }
 
     public function testGetMessages()
@@ -49,14 +49,14 @@ class CloudTest extends PHPUnit_Framework_TestCase
 
     public function testGetMessageIsTask()
     {
-        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Entity\Task());
+        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Task\Entity\Task());
         $this->messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
-        $this->assertInstanceOf('\RoundPartner\Cloud\Entity\Task', $this->messages[0]->getBody());
+        $this->assertInstanceOf('\RoundPartner\Cloud\Task\Entity\Task', $this->messages[0]->getBody());
     }
 
     public function testGetMessagesMultiple()
     {
-        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Entity\Task());
+        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Task\Entity\Task());
         $this->client->queue(self::TEST_QUEUE)->getMessages(100);
         $messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
         $this->assertEmpty($messages);

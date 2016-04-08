@@ -2,7 +2,7 @@
 
 namespace RoundPartner\Cloud\Task;
 
-use RoundPartner\Cloud\Entity\Task;
+use RoundPartner\Cloud\Task\Entity\Task;
 
 class TaskFactory
 {
