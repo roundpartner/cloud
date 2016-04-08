@@ -61,5 +61,4 @@ class CloudTest extends PHPUnit_Framework_TestCase
         $messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
         $this->assertEmpty($messages);
     }
-
 }
