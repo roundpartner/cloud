@@ -48,41 +48,6 @@ class Cloud implements CloudInterface
 
     /**
      * @param string $queue
-     * @param mixed $message
-     * @param int $ttl
-     *
-     * @deprecated use queue method
-     *
-     * @return bool
-     */
-    public function addMessage($queue, $message, $ttl = 600)
-    {
-        return $this->queue($queue)->addMessage($message, $ttl);
-    }
-
-    /**
-     * @param string $queue
-     * @param integer $limit
-     *
-     * @deprecated use queue method
-     *
-     * @return mixed[]
-     *
-     * @throws \Exception
-     */
-    public function getMessages($queue, $limit = 10)
-    {
-        $response = array();
-        $messages = $this->queue($queue)->getMessages($limit);
-        foreach ($messages as $message) {
-            $response[] = $message->getBody();
-            $message->delete();
-        }
-        return $response;
-    }
-
-    /**
-     * @param string $queue
      * @param string $serviceName
      * @param string $region
      *

@@ -56,9 +56,9 @@ class CloudTest extends PHPUnit_Framework_TestCase
 
     public function testGetMessagesMultiple()
     {
-        $this->client->addMessage(self::TEST_QUEUE, new \RoundPartner\Cloud\Entity\Task());
-        $this->client->getMessages(self::TEST_QUEUE, 100);
-        $messages = $this->client->getMessages(self::TEST_QUEUE);
+        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Entity\Task());
+        $this->client->queue(self::TEST_QUEUE)->getMessages(100);
+        $messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
         $this->assertEmpty($messages);
     }
 
