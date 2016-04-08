@@ -67,7 +67,7 @@ class Cloud implements CloudInterface
      * @deprecated use queue method
      *
      * @return mixed[]
-     * 
+     *
      * @throws \Exception
      */
     public function getMessages($queue, $limit = 10)

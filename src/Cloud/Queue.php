@@ -71,7 +71,7 @@ class Queue implements QueueInterface
      * @param \OpenCloud\Queues\Resource\Message[] $messages
      *
      * @return Message[]
-     * 
+     *
      * @throws \Exception
      */
     private function processMessages($messages)
