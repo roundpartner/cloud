@@ -20,7 +20,8 @@ class QueueMock implements QueueInterface
      *
      * @return bool
      */
-    public function addMessage($message, $ttl = 600) {
+    public function addMessage($message, $ttl = 600)
+    {
         $this->messages[] = $message;
         return true;
     }
@@ -32,7 +33,8 @@ class QueueMock implements QueueInterface
      *
      * @throws \Exception
      */
-    public function getMessages($limit = 10) {
+    public function getMessages($limit = 10)
+    {
         return array_splice($this->messages, 0, $limit);
     }
 }
