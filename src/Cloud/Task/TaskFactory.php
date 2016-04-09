@@ -14,7 +14,7 @@ class TaskFactory
      *
      * @return Task
      */
-    public static function create($taskName, $command, $action, $arguments = array())
+    public static function create($taskName, $command, $action = null, $arguments = array())
     {
         $task = new Task();
         $task->taskName = $taskName;
