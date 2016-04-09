@@ -40,11 +40,22 @@ class Poll
     public function next()
     {
         if (0 === count($this->messages)) {
-            $this->messages = $this->queue->getMessages();
+            $this->messages = $this->pollQueue();
         }
 
         $this->iterations++;
         return array_shift($this->messages);
+    }
+
+    private function pollQueue()
+    {
+        $iterations = 0;
+        do {
+            $messages = $this->queue->getMessages();
+            $iterations++;
+        } while (0 === count($messages) && $iterations < 1);
+
+        return $messages;
     }
 
     /**
