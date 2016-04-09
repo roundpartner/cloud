@@ -1,6 +1,6 @@
 <?php
 
-namespace RoundPartner\Unit\Task;
+namespace RoundPartner\Test\Unit\Task;
 
 use RoundPartner\Cloud\Task\Entity\Task;
 use RoundPartner\Cloud\Task\TaskFactory;

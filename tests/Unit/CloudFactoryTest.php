@@ -1,6 +1,6 @@
 <?php
 
-namespace RoundPartner\Unit;
+namespace RoundPartner\Test\Unit;
 
 use RoundPartner\Cloud\CloudFactory;
 use RoundPartner\Conf\Service;

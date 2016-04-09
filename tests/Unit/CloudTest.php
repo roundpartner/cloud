@@ -1,6 +1,8 @@
 <?php
 
-class CloudTest extends PHPUnit_Framework_TestCase
+namespace RoundPartner\Test\Unit;
+
+class CloudTest extends \PHPUnit_Framework_TestCase
 {
     const TEST_QUEUE = 'tasks_dev';
 
