@@ -23,6 +23,16 @@ class Poll
     protected $iterations;
 
     /**
+     * @var int
+     */
+    protected $maxIterations;
+
+    /**
+     * @var $sleepTime
+     */
+    protected $sleepTime;
+
+    /**
      * Poll constructor.
      *
      * @param QueueInterface $queue
@@ -32,6 +42,9 @@ class Poll
         $this->queue = $queue;
         $this->messages = array();
         $this->iterations = 0;
+        $this->maxIterations = 2;
+        $this->timeLastPolled = 0;
+        $this->sleepTime = 1;
     }
 
     /**
@@ -51,11 +64,25 @@ class Poll
     {
         $iterations = 0;
         do {
+            $this->delayIteration($iterations);
             $messages = $this->queue->getMessages();
             $iterations++;
-        } while (0 === count($messages) && $iterations < 1);
+        } while (0 === count($messages) && $iterations < $this->maxIterations);
 
         return $messages;
+    }
+
+    /**
+     * @param int $iteration
+     *
+     * @return int
+     */
+    private function delayIteration($iteration)
+    {
+        if ($iteration > 0) {
+            return 0;
+        }
+        return sleep($this->sleepTime);
     }
 
     /**
