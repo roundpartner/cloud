@@ -25,7 +25,7 @@ class Poll
     /**
      * @var int
      */
-    protected $maxIterations;
+    protected $maxTime;
 
     /**
      * @var $sleepTime
@@ -42,7 +42,8 @@ class Poll
         $this->queue = $queue;
         $this->messages = array();
         $this->iterations = 0;
-        $this->maxIterations = 2;
+        $this->maxTime = 10;
+        $this->polls = 0;
         $this->timeLastPolled = 0;
         $this->sleepTime = 1;
     }
@@ -62,27 +63,27 @@ class Poll
 
     private function pollQueue()
     {
-        $iterations = 0;
+        $endTime = time() + $this->maxTime;
         do {
-            $this->delayIteration($iterations);
             $messages = $this->queue->getMessages();
-            $iterations++;
-        } while (0 === count($messages) && $iterations < $this->maxIterations);
+        } while (0 === count($messages) && $this->isMaxTimeReached($endTime) && $this->delayIteration());
 
         return $messages;
     }
 
-    /**
-     * @param int $iteration
-     *
-     * @return int
-     */
-    private function delayIteration($iteration)
+    private function isMaxTimeReached($endTime)
     {
-        if ($iteration > 0) {
-            return 0;
-        }
-        return sleep($this->sleepTime);
+        $timeNow = time();
+        $timeRemaining = $endTime - $timeNow;
+        return $timeRemaining > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    private function delayIteration()
+    {
+        return 0 === sleep($this->sleepTime);
     }
 
     /**
