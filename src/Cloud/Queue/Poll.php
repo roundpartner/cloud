@@ -23,29 +23,23 @@ class Poll
     protected $iterations;
 
     /**
-     * @var int
+     * @var \RoundPartner\Cloud\Queue\Entity\Poll
      */
-    protected $maxTime;
-
-    /**
-     * @var $sleepTime
-     */
-    protected $sleepTime;
+    protected $config;
 
     /**
      * Poll constructor.
      *
-     * @param QueueInterface $queue
+     * @param \RoundPartner\Cloud\Queue\Entity\Poll $config
      */
-    public function __construct(QueueInterface $queue)
+    public function __construct(Entity\Poll $config)
     {
-        $this->queue = $queue;
+        $this->queue = $config->queue;
         $this->messages = array();
         $this->iterations = 0;
-        $this->maxTime = 10;
         $this->polls = 0;
         $this->timeLastPolled = 0;
-        $this->sleepTime = 1;
+        $this->config = $config;
     }
 
     /**
@@ -63,18 +57,22 @@ class Poll
 
     private function pollQueue()
     {
-        $endTime = time() + $this->maxTime;
+        $messages = array();
+        if ($this->isMaxTimeReached()) {
+            return $messages;
+        }
+
         do {
             $messages = $this->queue->getMessages();
-        } while (0 === count($messages) && $this->isMaxTimeReached($endTime) && $this->delayIteration());
+        } while (0 === count($messages) && !$this->isMaxTimeReached() && $this->delayIteration());
 
         return $messages;
     }
 
-    private function isMaxTimeReached($endTime)
+    private function isMaxTimeReached()
     {
         $timeNow = time();
-        $timeRemaining = $endTime - $timeNow;
+        $timeRemaining =  $timeNow - $this->config->endTime;
         return $timeRemaining > 0;
     }
 
@@ -83,7 +81,7 @@ class Poll
      */
     private function delayIteration()
     {
-        return 0 === sleep($this->sleepTime);
+        return 0 === sleep($this->config->sleepTime);
     }
 
     /**
