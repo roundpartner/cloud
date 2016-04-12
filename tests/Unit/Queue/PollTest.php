@@ -22,7 +22,7 @@ class PollTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->queue = new QueueMock();
-        $this->poll = PollFactory::create($this->queue);
+        $this->poll = PollFactory::create($this->queue, 0, 0.1);
     }
 
     public function testNext()
