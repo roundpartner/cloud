@@ -43,7 +43,7 @@ class Poll
     }
 
     /**
-     * @return mixed
+     * @return Message
      */
     public function next()
     {
@@ -55,6 +55,9 @@ class Poll
         return array_shift($this->messages);
     }
 
+    /**
+     * @return Message[]
+     */
     private function pollQueue()
     {
         $messages = array();

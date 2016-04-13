@@ -29,6 +29,11 @@ class Message
         $this->secret = $secret;
     }
 
+    /**
+     * @return mixed
+     *
+     * @throws \Exception
+     */
     public function getBody()
     {
         $body = $this->message->getBody();
