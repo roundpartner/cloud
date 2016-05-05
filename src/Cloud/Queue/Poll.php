@@ -47,12 +47,21 @@ class Poll
      */
     public function next()
     {
+        $this->hasNext();
+        $this->iterations++;
+        return array_shift($this->messages);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNext()
+    {
         if (0 === count($this->messages)) {
             $this->messages = $this->pollQueue();
         }
 
-        $this->iterations++;
-        return array_shift($this->messages);
+        return count($this->messages) > 0;
     }
 
     /**
