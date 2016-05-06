@@ -60,13 +60,18 @@ class Queue implements QueueInterface
      */
     public function getMessages($limit = 10, $grace = 60, $ttl = 600)
     {
-        $messages = $this->service->claimMessages(array(
+        $messages = $this->claimMessages(array(
             'limit' => $limit,
             'grace' => $grace,
             'ttl'   => $ttl
         ));
 
         return $this->processMessages($messages);
+    }
+
+    private function claimMessages(array $options = array())
+    {
+        return $this->service->claimMessages($options);
     }
 
     /**

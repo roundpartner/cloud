@@ -2,6 +2,8 @@
 
 namespace RoundPartner\Cloud;
 
+use RoundPartner\Cloud\Queue\PollFactory;
+
 class Cloud implements CloudInterface
 {
 
