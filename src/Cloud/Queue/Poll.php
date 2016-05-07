@@ -75,7 +75,7 @@ class Poll
         }
 
         do {
-            $messages = $this->queue->getMessages();
+            $messages = $this->queue->getMessages($this->config->maxMessageBuffer);
         } while (0 === count($messages) && !$this->isMaxTimeReached() && $this->delayIteration());
 
         return $messages;

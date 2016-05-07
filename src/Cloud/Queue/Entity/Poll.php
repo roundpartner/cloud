@@ -26,4 +26,9 @@ class Poll
      * @var int
      */
     public $sleepTime;
+
+    /**
+     * @var int
+     */
+    public $maxMessageBuffer;
 }
