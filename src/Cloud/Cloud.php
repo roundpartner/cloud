@@ -59,6 +59,7 @@ class Cloud implements CloudInterface
     {
         $service = $this->client->queuesService($serviceName, $region);
         $service->setClientId();
+        $service->getClient()->getConfig()->set('curl.options', array('body_as_string' => true));
         return $service->getQueue($queue);
     }
 }
