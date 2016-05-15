@@ -2,7 +2,7 @@
 
 namespace RoundPartner\Cloud;
 
-use RoundPartner\Cloud\Queue\PollFactory;
+use RoundPartner\Cloud\Queue\QueueFactory;
 
 class Cloud implements CloudInterface
 {
@@ -42,24 +42,8 @@ class Cloud implements CloudInterface
     public function queue($queue)
     {
         if (!isset($this->queueServices[$queue])) {
-            $queueInstance = $this->getQueue($queue);
-            $this->queueServices[$queue] = new Queue($queueInstance, $this->secret);
+            $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue);
         }
         return $this->queueServices[$queue];
-    }
-
-    /**
-     * @param string $queue
-     * @param string $serviceName
-     * @param string $region
-     *
-     * @return \OpenCloud\Queues\Resource\Queue
-     */
-    protected function getQueue($queue, $serviceName = 'cloudQueues', $region = 'LON')
-    {
-        $service = $this->client->queuesService($serviceName, $region);
-        $service->setClientId();
-        $service->getClient()->getConfig()->set('curl.options', array('body_as_string' => true));
-        return $service->getQueue($queue);
     }
 }
