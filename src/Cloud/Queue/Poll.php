@@ -81,11 +81,22 @@ class Poll
         return $messages;
     }
 
+    /**
+     * @return bool
+     */
     private function isMaxTimeReached()
     {
-        $timeNow = time();
-        $timeRemaining =  $timeNow - $this->config->endTime;
+        $timeRemaining =  $this->getTimeRemaining() / -1;
         return $timeRemaining > 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeRemaining()
+    {
+        $timeNow = time();
+        return $this->config->endTime - $timeNow;
     }
 
     /**

@@ -54,4 +54,11 @@ class PollTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals(4, $this->poll->currentIteration());
     }
+
+    public function testGetTimeRemaining()
+    {
+        $this->poll = PollFactory::create($this->queue, PollFactory::MINUTE);
+        sleep(1);
+        $this->assertEquals(PollFactory::MINUTE - 1, $this->poll->getTimeRemaining());
+    }
 }
