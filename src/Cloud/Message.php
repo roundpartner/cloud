@@ -38,19 +38,50 @@ class Message
     {
         $body = $this->message->getBody();
         if (isset($body->serial)) {
-            $verifyHash = new VerifyHash($this->secret);
-            if ($verifyHash->verify($body->sha1, $body->serial)) {
-                return unserialize($body->serial);
-            } else {
-                throw new \Exception('Message secret could not be verified');
-            }
+            return $this->verifyBody($body);
         } else {
             throw new \Exception('Message has no secret');
         }
     }
 
+    /**
+     * @return bool
+     */
     public function delete()
     {
-        $this->message->delete($this->message->getClaimIdFromHref());
+        return $this->message->delete($this->message->getClaimIdFromHref());
+    }
+
+    /**
+     * @param object $body
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    private function verifyBody($body)
+    {
+        $verifyHash = new VerifyHash($this->secret);
+        if ($verifyHash->verify($body->sha1, $body->serial)) {
+            return $this->unserialiseBody($body);
+        } else {
+            throw new \Exception('Message secret could not be verified');
+        }
+    }
+
+    /**
+     * @param object $body
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    private function unserialiseBody($body)
+    {
+        $object = unserialize($body->serial);
+        if ($object instanceof __PHP_Incomplete_Class) {
+            throw new \Exception('Unable to unserialise message');
+        }
+        return $object;
     }
 }
