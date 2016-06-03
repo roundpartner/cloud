@@ -31,10 +31,13 @@ class Domain
     }
 
     /**
-     * @return \OpenCloud\DNS\OpenCloud\DNS\Collection\DnsIterator
+     * @param string $domain
+     *
+     * @return \OpenCloud\DNS\Resource\Domain
+     * @throws \OpenCloud\Common\Exceptions\DomainNotFoundException
      */
-    public function listDomains()
+    public function getDomain($domain)
     {
-        return $this->service->domainList();
+        return $this->service->domainByName($domain);
     }
 }
