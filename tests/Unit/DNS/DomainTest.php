@@ -14,15 +14,28 @@ class DomainTest extends \PHPUnit_Framework_TestCase
      */
     protected $service;
 
+    /**
+     * @var array
+     */
+    protected $domainConfig;
+
     public function setUp()
     {
         $config = Service::get('opencloud');
         $client = new Cloud($config['username'], $config['key']);
         $this->service = DomainFactory::create($client);
+        $this->domainConfig = Service::get('domain');
     }
 
-    public function testListDomains()
+    public function testGetDomain()
     {
-        $this->assertNotEmpty($this->service->listDomains());
+        $this->assertInstanceOf('\OpenCloud\DNS\Resource\Domain', $this->service->getDomain('imacatlol.co.uk'));
+    }
+
+    public function testUpdateSubDomain()
+    {
+        $domain = $this->service->getDomain($this->domainConfig['domain']);
+        $result = $this->service->updateSubDomain($domain, $this->domainConfig['home'], $this->domainConfig['ip']);
+        $this->assertTrue($result);
     }
 }

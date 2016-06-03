@@ -40,4 +40,24 @@ class Domain
     {
         return $this->service->domainByName($domain);
     }
+
+    /**
+     * @param \OpenCloud\DNS\Resource\Domain $domain
+     * @param string $name
+     * @param string $data
+     *
+     * @return bool
+     */
+    public function updateSubDomain($domain, $name, $data)
+    {
+        $records = $domain->recordList();
+        foreach ($records as $record) {
+            if ($record->name === $name) {
+                $record->update(array(
+                    'data' => $data
+                ));
+            }
+        }
+        return true;
+    }
 }
