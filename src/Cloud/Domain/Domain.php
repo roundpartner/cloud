@@ -2,6 +2,7 @@
 
 namespace RoundPartner\Cloud\Domain;
 
+use OpenCloud\DNS\Resource\Record;
 use OpenCloud\DNS\Service;
 use OpenCloud\Rackspace;
 
@@ -53,11 +54,22 @@ class Domain
         $records = $domain->recordList();
         foreach ($records as $record) {
             if ($record->name === $name) {
-                $record->update(array(
-                    'data' => $data
-                ));
+                $this->updateRecord($record, $data);
             }
         }
         return true;
+    }
+
+    /**
+     * @param Record $record
+     * @param string $data
+     *
+     * @return \Guzzle\Http\Message\Response|\OpenCloud\DNS\Resource\AsyncResponse
+     */
+    private function updateRecord(Record $record, $data)
+    {
+        return $record->update(array(
+            'data' => $data
+        ));
     }
 }
