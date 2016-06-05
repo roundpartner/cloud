@@ -51,7 +51,7 @@ class Domain
      */
     public function updateSubDomain($domain, $name, $data)
     {
-        $records = $domain->recordList();
+        $records = $domain->recordList(['type' => 'A']);
         if (count($records) === 0) {
             return false;
         }
