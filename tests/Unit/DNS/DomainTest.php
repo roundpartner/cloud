@@ -24,7 +24,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
         $config = Service::get('opencloud');
         $client = new Cloud($config['username'], $config['key']);
         $this->service = DomainFactory::create($client);
-        $this->domainConfig = Service::get('domain');
+        $this->domainConfig = Service::get('testdomain');
     }
 
     public function testGetDomain()

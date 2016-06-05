@@ -2,6 +2,7 @@
 
 namespace RoundPartner\Cloud\Domain;
 
+use OpenCloud\DNS\Collection\DnsIterator;
 use OpenCloud\DNS\Resource\Record;
 use OpenCloud\DNS\Service;
 use OpenCloud\Rackspace;
@@ -51,14 +52,23 @@ class Domain
      */
     public function updateSubDomain($domain, $name, $data)
     {
-        $records = $domain->recordList(['type' => 'A']);
-        if (count($records) === 0) {
+        $records = $domain->recordList(['type' => 'A', 'name' => $name]);
+        if (count($records) !== 1) {
             return false;
         }
+        return $this->updateAllRecords($records, $data);
+    }
+
+    /**
+     * @param DnsIterator $records
+     * @param string $data
+     *
+     * @return bool
+     */
+    private function updateAllRecords(DnsIterator $records, $data)
+    {
         foreach ($records as $record) {
-            if ($record->name === $name) {
-                $this->updateRecord($record, $data);
-            }
+            $this->updateRecord($record, $data);
         }
         return true;
     }
