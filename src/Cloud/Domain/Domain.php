@@ -52,6 +52,9 @@ class Domain
     public function updateSubDomain($domain, $name, $data)
     {
         $records = $domain->recordList();
+        if (count($records) === 0) {
+            return false;
+        }
         foreach ($records as $record) {
             if ($record->name === $name) {
                 $this->updateRecord($record, $data);
