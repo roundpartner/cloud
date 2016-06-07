@@ -55,7 +55,7 @@ class Cloud implements CloudInterface
     }
 
     /**
-     * @return Domain\Domain
+     * @return Domain
      */
     public function domain()
     {
