@@ -63,4 +63,9 @@ class CloudTest extends \PHPUnit_Framework_TestCase
         $messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
         $this->assertEmpty($messages);
     }
+
+    public function testInstanceOfDomain()
+    {
+        $this->assertInstanceOf('\RoundPartner\Cloud\Domain\Domain', $this->client->domain());
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace RoundPartner\Cloud;
 
+use RoundPartner\Cloud\Domain\Domain;
+use RoundPartner\Cloud\Domain\DomainFactory;
 use RoundPartner\Cloud\Queue\QueueFactory;
 
 class Cloud implements CloudInterface
@@ -21,6 +23,11 @@ class Cloud implements CloudInterface
      * @var QueueInterface[]
      */
     protected $queueServices;
+
+    /**
+     * @var Domain
+     */
+    protected $domainService;
 
     /**
      * Cloud constructor.
@@ -45,5 +52,16 @@ class Cloud implements CloudInterface
             $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue);
         }
         return $this->queueServices[$queue];
+    }
+
+    /**
+     * @return Domain\Domain
+     */
+    public function domain()
+    {
+        if ($this->domainService === null) {
+            $this->domainService = DomainFactory::create($this->client);
+        }
+        return $this->domainService;
     }
 }
