@@ -21,7 +21,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "RoundPartner\\Cloud\\": "src/cloud/"
+      "RoundPartner\\Cloud\\": "src/"
     }
   },
   "autoload-dev": {
