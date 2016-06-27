@@ -29,7 +29,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDomain()
     {
-        $this->assertInstanceOf('\OpenCloud\DNS\Resource\Domain', $this->service->getDomain('imacatlol.co.uk'));
+        $this->assertInstanceOf('\OpenCloud\DNS\Resource\Domain', $this->service->getDomain($this->domainConfig['domain']));
     }
 
     public function testUpdateSubDomain()
