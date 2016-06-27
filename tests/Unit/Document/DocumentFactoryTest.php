@@ -2,11 +2,12 @@
 
 namespace RoundPartner\Unit\Document;
 
+use RoundPartner\Cloud\Document\DocumentFactory;
 use RoundPartner\Cloud\Service\Cloud;
 use RoundPartner\Cloud\Document\Document;
 use RoundPartner\Conf\Service;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+class DocumentFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -23,7 +24,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
         $config = Service::get('opencloud');
         $client = new Cloud($config['username'], $config['key']);
         $this->config = Service::get('testclouddocument');
-        $this->service = new Document($client);
+        $this->service = DocumentFactory::create($client);
     }
 
     public function testCreateInstance()
