@@ -27,6 +27,9 @@
   "autoload-dev": {
     "psr-4": {
       "RoundPartner\\Test\\": "tests/"
+    },
+    "psr-0": {
+      "OpenCloud": ["vendor/rackspace/php-opencloud/tests/"]
     }
   },
   "require": {
