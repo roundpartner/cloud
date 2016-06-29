@@ -2,14 +2,16 @@
 
 namespace RoundPartner\Unit\Document;
 
-use OpenCloud\Tests\OpenCloudTestCase;
-use RoundPartner\Cloud\Service\Cloud;
+use OpenCloud\Tests\MockSubscriber;
 use RoundPartner\Cloud\Document\Document;
-use RoundPartner\Conf\Service;
+use RoundPartner\Tests\CloudTestCase;
 
-class DocumentTest extends OpenCloudTestCase
+class DocumentTest extends CloudTestCase
 {
 
+    /**
+     * @const string
+     */
     const TEST_CONTAINER_NAME = 'test_container';
 
     /**
@@ -24,9 +26,9 @@ class DocumentTest extends OpenCloudTestCase
 
     public function setUp()
     {
-        $config = Service::get('opencloud');
-        $this->client = new Cloud($config['username'], $config['key']);
-        $this->service = new Document($this->client);
+        $this->client = $this->newClient();
+        $this->client->addSubscriber(new MockSubscriber());
+        $this->service = new Document($this->client, 'DFW');
     }
 
     public function testCreateInstance()

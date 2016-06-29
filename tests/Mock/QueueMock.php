@@ -1,14 +1,17 @@
 <?php
 
-namespace RoundPartner\Test\Mock;
+namespace RoundPartner\Tests\Mock;
 
 use RoundPartner\Cloud\QueueInterface;
 
 class QueueMock implements QueueInterface
 {
-    
+
+    /**
+     * @var array
+     */
     protected $messages;
-    
+
     public function __construct()
     {
         $this->messages = array();

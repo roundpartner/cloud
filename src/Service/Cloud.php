@@ -12,11 +12,12 @@ class Cloud extends Rackspace implements ServiceInterface
      *
      * @param string $username
      * @param string $apiKey
+     * @param $endPointUrl $apiKey
      */
-    public function __construct($username, $apiKey)
+    public function __construct($username, $apiKey, $endPointUrl = Rackspace::UK_IDENTITY_ENDPOINT)
     {
         parent::__construct(
-            Rackspace::UK_IDENTITY_ENDPOINT,
+            $endPointUrl,
             array(
                 'username' => $username,
                 'apiKey' => $apiKey,

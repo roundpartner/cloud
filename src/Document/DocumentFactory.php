@@ -11,8 +11,8 @@ class DocumentFactory
      *
      * @return Document
      */
-    public static function create($client)
+    public static function create($client, $region = 'LON')
     {
-        return new Document($client);
+        return new Document($client, $region);
     }
 }

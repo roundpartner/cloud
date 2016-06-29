@@ -1,12 +1,15 @@
 <?php
 
-namespace RoundPartner\Test\Mock;
+namespace RoundPartner\Tests\Mock;
 
 class MessageMock
 {
-    
+
+    /**
+     * @var array
+     */
     protected $message;
-    
+
     public function __construct($message = array())
     {
         $this->message = $message;

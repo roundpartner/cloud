@@ -3,7 +3,7 @@
 namespace RoundPartner\Unit;
 
 use RoundPartner\Cloud\Message;
-use RoundPartner\Test\Mock\MessageMock;
+use RoundPartner\Tests\Mock\MessageMock;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {

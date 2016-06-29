@@ -4,7 +4,7 @@ namespace RoundPartner\Unit\Queue;
 
 use RoundPartner\Cloud\Queue\Poll;
 use RoundPartner\Cloud\Queue\PollFactory;
-use RoundPartner\Test\Mock\QueueMock;
+use RoundPartner\Tests\Mock\QueueMock;
 
 class PollTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +17,7 @@ class PollTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Poll
      */
-    protected $poll;
-    
+
     public function setUp()
     {
         $this->queue = new QueueMock();
