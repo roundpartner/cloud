@@ -2,7 +2,6 @@
 
 namespace RoundPartner\Unit\Document;
 
-use OpenCloud\Tests\MockSubscriber;
 use OpenCloud\Tests\OpenCloudTestCase;
 use RoundPartner\Cloud\Service\Cloud;
 use RoundPartner\Cloud\Document\Document;
@@ -10,6 +9,9 @@ use RoundPartner\Conf\Service;
 
 class DocumentTest extends OpenCloudTestCase
 {
+
+    const TEST_CONTAINER_NAME = 'test_container';
+
     /**
      * @var array
      */
@@ -24,7 +26,6 @@ class DocumentTest extends OpenCloudTestCase
     {
         $config = Service::get('opencloud');
         $this->client = new Cloud($config['username'], $config['key']);
-        $this->config = Service::get('testclouddocument');
         $this->service = new Document($this->client);
     }
 
@@ -36,7 +37,7 @@ class DocumentTest extends OpenCloudTestCase
     public function testGetContainer()
     {
         $this->addMockSubscriber($this->makeResponse(null, 201));
-        $this->assertInstanceOf('OpenCloud\ObjectStore\Resource\Container', $this->service->getContainer($this->config['name']));
+        $this->assertInstanceOf('OpenCloud\ObjectStore\Resource\Container', $this->service->getContainer(self::TEST_CONTAINER_NAME));
     }
 
     public function testGetContainerThrowsExceptionOnError()
@@ -49,6 +50,22 @@ class DocumentTest extends OpenCloudTestCase
     public function testContainerExists()
     {
         $this->addMockSubscriber($this->makeResponse(null, 404));
-        $this->assertFalse($this->service->containerExists($this->config['name']));
+        $this->assertFalse($this->service->containerExists(self::TEST_CONTAINER_NAME));
+    }
+
+    public function testPostDocument()
+    {
+        $this->addMockSubscriber($this->makeResponse(null, 201));
+        $this->addMockSubscriber($this->makeResponse(null, 201));
+        $result = $this->service->postDocument(self::TEST_CONTAINER_NAME, 'foobar', 'data');
+        $this->assertInstanceOf('OpenCloud\ObjectStore\Resource\DataObject', $result);
+    }
+
+    public function testPostDocumentWhenContainerDoesNotExist()
+    {
+        $this->addMockSubscriber($this->makeResponse(null, 201));
+        $this->addMockSubscriber($this->makeResponse(null, 404));
+        $result = $this->service->postDocument(self::TEST_CONTAINER_NAME, 'foobar', 'data');
+        $this->assertFalse($result);
     }
 }

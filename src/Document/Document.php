@@ -3,6 +3,8 @@
 namespace RoundPartner\Cloud\Document;
 
 use Guzzle\Http\Exception\BadResponseException;
+use Guzzle\Http\Exception\RequestException;
+use OpenCloud\ObjectStore\Resource\DataObject;
 use OpenCloud\Rackspace;
 
 class Document
@@ -50,10 +52,41 @@ class Document
         try {
             return $this->service->getContainer($name);
         } catch (BadResponseException $exception) {
-            if ($exception->getRequest()->getResponse()->getStatusCode() === 404) {
-                return false;
-            }
-            throw $exception;
+            return $this->returnFalseOnObjectNotFoundExceptions($exception);
         }
+    }
+
+    /**
+     * @param string $containerName
+     * @param string $name
+     * @param string $body
+     *
+     * @return DataObject
+     */
+    public function postDocument($containerName, $name, $body)
+    {
+        $container = $this->getContainer($containerName);
+        if ($container === false) {
+            return false;
+        }
+        try {
+            return $container->uploadObject($name, $body);
+        } catch (BadResponseException $exception) {
+            return $this->returnFalseOnObjectNotFoundExceptions($exception);
+        }
+    }
+
+    /**
+     * @param BadResponseException $exception
+     *
+     * @return bool
+     */
+    private function returnFalseOnObjectNotFoundExceptions(BadResponseException $exception)
+    {
+        $responseCode = $exception->getRequest()->getResponse()->getStatusCode();
+        if (404 === $responseCode) {
+            return false;
+        }
+        throw $exception;
     }
 }
