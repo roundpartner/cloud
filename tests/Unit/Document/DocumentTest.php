@@ -59,15 +59,26 @@ class DocumentTest extends CloudTestCase
     {
         $this->addMockSubscriber($this->makeResponse(null, 201));
         $this->addMockSubscriber($this->makeResponse(null, 201));
-        $result = $this->service->postDocument(self::TEST_CONTAINER_NAME, 'foobar', 'data');
-        $this->assertInstanceOf('OpenCloud\ObjectStore\Resource\DataObject', $result);
+        $object = $this->service->postDocument(self::TEST_CONTAINER_NAME, 'foobar', 'data');
+        $this->assertInstanceOf('OpenCloud\ObjectStore\Resource\DataObject', $object);
     }
 
     public function testPostDocumentWhenContainerDoesNotExist()
     {
         $this->addMockSubscriber($this->makeResponse(null, 201));
         $this->addMockSubscriber($this->makeResponse(null, 404));
-        $result = $this->service->postDocument(self::TEST_CONTAINER_NAME, 'foobar', 'data');
-        $this->assertFalse($result);
+        $object = $this->service->postDocument(self::TEST_CONTAINER_NAME, 'foobar', 'data');
+        $this->assertFalse($object);
+    }
+    
+    public function testGetDocument()
+    {
+        $this->addMockSubscriber($this->makeResponse(null, 201));
+        $this->addMockSubscriber($this->makeResponse('b0dffe8254d152d8fd28f3c5e0404a10'));
+        $object = $this->service->getDocument(self::TEST_CONTAINER_NAME, 'foobar');
+        $this->assertEquals(
+            'b0dffe8254d152d8fd28f3c5e0404a10',
+            (string) $object->getContent()
+        );
     }
 }

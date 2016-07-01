@@ -3,7 +3,6 @@
 namespace RoundPartner\Cloud\Document;
 
 use Guzzle\Http\Exception\BadResponseException;
-use Guzzle\Http\Exception\RequestException;
 use OpenCloud\ObjectStore\Resource\DataObject;
 use OpenCloud\Rackspace;
 
@@ -72,6 +71,25 @@ class Document
             return $container->uploadObject($name, $body);
         } catch (BadResponseException $exception) {
             return $this->returnFalseOnObjectNotFoundExceptions($exception);
+        }
+    }
+
+    /**
+     * @param string $containerName
+     * @param string $name
+     *
+     * @return DataObject
+     */
+    public function getDocument($containerName, $name)
+    {
+        $container = $this->getContainer($containerName);
+        if ($container === false) {
+            return false;
+        }
+        try {
+            return $container->getObject($name);
+        } catch (ObjectNotFoundException $exception) {
+            return false;
         }
     }
 
