@@ -51,4 +51,23 @@ class TaskFactory
             $arguments
         );
     }
+
+    /**
+     * @param int $userId
+     * @param string $container
+     *
+     * @return Task
+     */
+    public static function cloudBackupAsExcel($userId, $container)
+    {
+        return self::create(
+            'excel backup to cloud',
+            'backup',
+            'asExcel',
+            array (
+                "--clientId={$userId}",
+                "--container={$container}",
+            )
+        );
+    }
 }
