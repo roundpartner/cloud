@@ -80,6 +80,9 @@ class Cloud implements CloudInterface
         return $this->domainService;
     }
 
+    /**
+     * @return Document
+     */
     public function document()
     {
         if (null === $this->documentService) {
