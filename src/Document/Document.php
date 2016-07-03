@@ -19,6 +19,11 @@ class Document
     protected $service;
 
     /**
+     * @var \OpenCloud\ObjectStore\Resource\Container[]
+     */
+    protected $containers;
+
+    /**
      * Document constructor.
      *
      * @param Rackspace $client
@@ -28,6 +33,7 @@ class Document
     {
         $this->client = $client;
         $this->service = $this->client->objectStoreService('cloudFiles', $region);
+        $this->containers = array();
     }
 
     /**
@@ -46,6 +52,19 @@ class Document
      * @return \OpenCloud\ObjectStore\Resource\Container
      */
     public function getContainer($name)
+    {
+        if (!array_key_exists($name, $this->containers)) {
+            $this->containers[$name] = $this->getContainerFromService($name);
+        }
+        return $this->containers[$name];
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return \OpenCloud\ObjectStore\Resource\Container
+     */
+    private function getContainerFromService($name)
     {
         try {
             return $this->service->getContainer($name);

@@ -68,4 +68,9 @@ class CloudTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\RoundPartner\Cloud\Domain\Domain', $this->client->domain());
     }
+
+    public function testInstanceOfDocument()
+    {
+        $this->assertInstanceOf('\RoundPartner\Cloud\Document\Document', $this->client->document());
+    }
 }

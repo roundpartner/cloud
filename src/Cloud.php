@@ -2,6 +2,8 @@
 
 namespace RoundPartner\Cloud;
 
+use RoundPartner\Cloud\Document\Document;
+use RoundPartner\Cloud\Document\DocumentFactory;
 use RoundPartner\Cloud\Domain\Domain;
 use RoundPartner\Cloud\Domain\DomainFactory;
 use RoundPartner\Cloud\Queue\QueueFactory;
@@ -28,6 +30,11 @@ class Cloud implements CloudInterface
      * @var Domain
      */
     protected $domainService;
+
+    /**
+     * @var Document
+     */
+    protected $documentService;
 
     /**
      * Cloud constructor.
@@ -59,9 +66,17 @@ class Cloud implements CloudInterface
      */
     public function domain()
     {
-        if ($this->domainService === null) {
+        if (null === $this->domainService) {
             $this->domainService = DomainFactory::create($this->client);
         }
         return $this->domainService;
+    }
+
+    public function document()
+    {
+        if (null === $this->documentService) {
+            $this->documentService = DocumentFactory::create($this->client);
+        }
+        return $this->documentService;
     }
 }
