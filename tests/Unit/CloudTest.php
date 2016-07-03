@@ -33,6 +33,11 @@ class CloudTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetClient()
+    {
+        $this->assertInstanceOf('\OpenCloud\Rackspace', $this->client->getClient());
+    }
+
     public function testQueue()
     {
         $this->assertInstanceOf('\RoundPartner\Cloud\QueueInterface', $this->client->queue(self::TEST_QUEUE));

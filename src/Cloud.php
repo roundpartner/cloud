@@ -49,6 +49,14 @@ class Cloud implements CloudInterface
     }
 
     /**
+     * @return \OpenCloud\Rackspace
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
      * @param string $queue
      *
      * @return Queue
