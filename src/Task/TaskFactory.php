@@ -62,7 +62,7 @@ class TaskFactory
     {
         return self::create(
             'excel backup to cloud',
-            'backup',
+            'backUp',
             'asExcel',
             array (
                 "--clientId={$userId}",
