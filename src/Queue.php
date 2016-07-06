@@ -2,6 +2,7 @@
 
 namespace RoundPartner\Cloud;
 
+use OpenCloud\Queues\Resource\Claim;
 use RoundPartner\VerifyHash\VerifyHash;
 
 class Queue implements QueueInterface
@@ -16,7 +17,7 @@ class Queue implements QueueInterface
      * @var string
      */
     protected $secret;
-    
+
     /**
      * Queue constructor.
      *
@@ -58,7 +59,7 @@ class Queue implements QueueInterface
      *
      * @throws \Exception
      */
-    public function getMessages($limit = 10, $grace = 60, $ttl = 600)
+    public function getMessages($limit = Claim::LIMIT_DEFAULT, $grace = CLAIM::GRACE_DEFAULT, $ttl = CLAIM::TTL_DEFAULT)
     {
         $messages = $this->claimMessages(array(
             'limit' => $limit,
