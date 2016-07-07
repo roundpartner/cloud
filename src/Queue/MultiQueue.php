@@ -10,24 +10,9 @@ class MultiQueue implements QueueInterface
 {
 
     /**
-     * @var string
-     */
-    protected $secret;
-
-    /**
      * @var QueueInterface[]
      */
     protected $queues;
-
-    /**
-     * MultiQueue constructor.
-     *
-     * @param $secret
-     */
-    public function __construct($secret)
-    {
-        $this->secret = $secret;
-    }
 
     /**
      * @param QueueInterface $queue

@@ -15,7 +15,7 @@ class MultiQueueTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->service = new MultiQueue('mock_secret');
+        $this->service = new MultiQueue();
     }
 
     public function testCreateInstance()
