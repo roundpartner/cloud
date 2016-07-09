@@ -2,6 +2,7 @@
 
 namespace RoundPartner\Cloud\Queue;
 
+use RoundPartner\Cloud\Message;
 use RoundPartner\Cloud\QueueInterface;
 
 class Poll
