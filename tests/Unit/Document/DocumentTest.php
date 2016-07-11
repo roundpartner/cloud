@@ -70,7 +70,7 @@ class DocumentTest extends CloudTestCase
         $object = $this->service->postDocument(self::TEST_CONTAINER_NAME, 'foobar', 'data');
         $this->assertFalse($object);
     }
-    
+
     public function testGetDocument()
     {
         $this->addMockSubscriber($this->makeResponse(null, 201));
@@ -80,5 +80,19 @@ class DocumentTest extends CloudTestCase
             'b0dffe8254d152d8fd28f3c5e0404a10',
             (string) $object->getContent()
         );
+    }
+
+    public function testExists()
+    {
+        $this->addMockSubscriber($this->makeResponse(null, 201));
+        $this->addMockSubscriber($this->makeResponse('b0dffe8254d152d8fd28f3c5e0404a10'));
+        $this->assertTrue($this->service->documentExists(self::TEST_CONTAINER_NAME, 'foobar'));
+    }
+
+    public function testDoesNotExists()
+    {
+        $this->addMockSubscriber($this->makeResponse(null, 201));
+        $this->addMockSubscriber($this->makeResponse(null, 404));
+        $this->assertFalse($this->service->documentExists(self::TEST_CONTAINER_NAME, 'foobar'));
     }
 }

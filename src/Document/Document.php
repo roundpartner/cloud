@@ -113,6 +113,21 @@ class Document
     }
 
     /**
+     * @param string $containerName
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function documentExists($containerName, $name)
+    {
+        $container = $this->getContainer($containerName);
+        if ($container === false) {
+            return false;
+        }
+        return $container->objectExists($name);
+    }
+
+    /**
      * @param BadResponseException $exception
      *
      * @return bool
