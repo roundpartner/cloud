@@ -82,6 +82,14 @@ class DocumentTest extends CloudTestCase
         );
     }
 
+    public function testGetDocumentThatDoesNotExist()
+    {
+        $this->addMockSubscriber($this->makeResponse(null, 201));
+        $this->addMockSubscriber($this->makeResponse(null, 404));
+        $result = $this->service->getDocument(self::TEST_CONTAINER_NAME, 'foobar');
+        $this->assertFalse($result);
+    }
+
     public function testExists()
     {
         $this->addMockSubscriber($this->makeResponse(null, 201));

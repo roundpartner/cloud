@@ -5,6 +5,7 @@ namespace RoundPartner\Cloud\Document;
 use Guzzle\Http\Exception\BadResponseException;
 use OpenCloud\ObjectStore\Resource\DataObject;
 use OpenCloud\Rackspace;
+use OpenCloud\ObjectStore\Exception\ObjectNotFoundException;
 
 class Document
 {
