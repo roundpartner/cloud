@@ -39,7 +39,7 @@ class TaskFactory
             "--account={$accountId}",
             "--invoice={$invoiceId}",
         );
-        
+
         if ($container) {
             $arguments[] = "--container={$container}";
         }
@@ -67,6 +67,29 @@ class TaskFactory
             array (
                 "--clientId={$userId}",
                 "--container={$container}",
+            )
+        );
+    }
+
+    /**
+     * @param int $userId
+     * @param string $container
+     * @param string $file
+     * @param string $type
+     *
+     * @return Task
+     */
+    public static function importCustomers($userId, $container, $file, $type)
+    {
+        return self::create(
+            'import customers',
+            'import',
+            'customers',
+            array(
+                "--user={$userId}",
+                "--container={$container}",
+                "--file={$file}",
+                "--type={$type}",
             )
         );
     }
