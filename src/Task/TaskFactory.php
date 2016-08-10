@@ -76,10 +76,11 @@ class TaskFactory
      * @param string $container
      * @param string $file
      * @param string $type
+     * @param string $jobType
      *
      * @return Task
      */
-    public static function importCustomers($userId, $container, $file, $type)
+    public static function importCustomers($userId, $container, $file, $type, $jobType = '')
     {
         return self::create(
             'import customers',
@@ -90,6 +91,7 @@ class TaskFactory
                 "--container={$container}",
                 "--file={$file}",
                 "--type={$type}",
+                "--jobType={$jobType}",
             )
         );
     }

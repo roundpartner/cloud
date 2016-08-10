@@ -37,7 +37,7 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testImportCustomers()
     {
-        $task = TaskFactory::importCustomers(1, 'test-container-name', 'file.csv', 'customers');
+        $task = TaskFactory::importCustomers(1, 'test-container-name', 'file.csv', 'customers', 'Job');
         $this->assertEquals($task->taskName, 'import customers');
     }
 }
