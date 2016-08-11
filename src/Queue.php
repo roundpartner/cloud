@@ -95,4 +95,13 @@ class Queue implements QueueInterface
         }
         return $response;
     }
+
+    /**
+     * @return bool
+     */
+    public function delete()
+    {
+        $response = $this->service->delete();
+        return 204 === $response->getStatusCode();
+    }
 }
