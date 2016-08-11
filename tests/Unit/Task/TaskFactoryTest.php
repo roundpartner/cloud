@@ -40,4 +40,10 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
         $task = TaskFactory::importCustomers(1, 'test-container-name', 'file.csv', 'customers', 'Job');
         $this->assertEquals($task->taskName, 'import customers');
     }
+
+    public function testEmailUserResetPassword()
+    {
+        $task = TaskFactory::emailUserResetPassword(1);
+        $this->assertEquals($task->taskName, 'reset user password');
+    }
 }

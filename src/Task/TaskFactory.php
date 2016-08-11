@@ -95,4 +95,19 @@ class TaskFactory
             )
         );
     }
+
+    /**
+     * @param int $userId
+     *
+     * @return Task
+     */
+    public static function emailUserResetPassword($userId)
+    {
+        return self::create(
+            'reset user password',
+            'user',
+            'reset',
+            array("--user={$userId}")
+        );
+    }
 }
