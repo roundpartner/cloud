@@ -89,4 +89,9 @@ class CloudTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\RoundPartner\Cloud\Document\Document', $this->client->document());
     }
+
+    public function testMessageService()
+    {
+        $this->assertInstanceOf('\RoundPartner\Cloud\Message\MessageService', $this->client->message(self::TEST_NEW_QUEUE));
+    }
 }

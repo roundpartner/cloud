@@ -6,6 +6,7 @@ use RoundPartner\Cloud\Document\Document;
 use RoundPartner\Cloud\Document\DocumentFactory;
 use RoundPartner\Cloud\Domain\Domain;
 use RoundPartner\Cloud\Domain\DomainFactory;
+use RoundPartner\Cloud\Message\MessageService;
 use RoundPartner\Cloud\Queue\QueueFactory;
 
 class Cloud implements CloudInterface
@@ -67,6 +68,17 @@ class Cloud implements CloudInterface
             $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue);
         }
         return $this->queueServices[$queue];
+    }
+
+    /**
+     * @param $queue
+     *
+     * @return MessageService
+     */
+    public function message($queue)
+    {
+        $queue = $this->queue($queue);
+        return new MessageService($queue);
     }
 
     /**
