@@ -2,7 +2,7 @@
 
 namespace RoundPartner\Unit;
 
-use RoundPartner\Cloud\Message;
+use RoundPartner\Cloud\Message\Message;
 use RoundPartner\Tests\Mock\MessageMock;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +11,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $mock = new MessageMock(array('sha1' => 'hello world', 'serial' => 'hello world'));
         $message = new Message($mock, 'no secret');
-        $this->setExpectedException('\Exception', 'Message secret could not be verified');
+        $this->setExpectedException('\RoundPartner\Cloud\Message\InvalidSignatureException', 'Message could not be verified');
         $message->getBody();
     }
 
@@ -19,7 +19,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $mock = new MessageMock();
         $message = new Message($mock, 'no secret');
-        $this->setExpectedException('\Exception', 'Message has no secret');
+        $this->setExpectedException('\RoundPartner\Cloud\Message\NoSignatureException', 'Message has no signature');
         $message->getBody();
     }
 }

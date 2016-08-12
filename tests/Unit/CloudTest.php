@@ -13,7 +13,7 @@ class CloudTest extends \PHPUnit_Framework_TestCase
     protected $client;
 
     /**
-     * @var \RoundPartner\Cloud\Message[]
+     * @var \RoundPartner\Cloud\Message\Message[]
      */
     protected $messages;
 
@@ -62,7 +62,7 @@ class CloudTest extends \PHPUnit_Framework_TestCase
     public function testGetMessages()
     {
         $this->messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
-        $this->assertContainsOnlyInstancesOf('\RoundPartner\Cloud\Message', $this->messages);
+        $this->assertContainsOnlyInstancesOf('\RoundPartner\Cloud\Message\Message', $this->messages);
     }
 
     public function testGetMessageIsTask()

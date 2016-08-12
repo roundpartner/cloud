@@ -1,6 +1,6 @@
 <?php
 
-namespace RoundPartner\Cloud;
+namespace RoundPartner\Cloud\Message;
 
 use RoundPartner\VerifyHash\VerifyHash;
 
@@ -13,7 +13,7 @@ class Message
     protected $message;
 
     /**
-     * @var
+     * @var string
      */
     protected $secret;
 
@@ -39,9 +39,8 @@ class Message
         $body = $this->message->getBody();
         if (isset($body->serial)) {
             return $this->verifyBody($body);
-        } else {
-            throw new \Exception('Message has no secret');
         }
+        throw new NoSignatureException('Message has no signature');
     }
 
     /**
@@ -65,7 +64,7 @@ class Message
         if ($verifyHash->verify($body->sha1, $body->serial)) {
             return $this->unserialiseBody($body);
         } else {
-            throw new \Exception('Message secret could not be verified');
+            throw new InvalidSignatureException('Message could not be verified');
         }
     }
 

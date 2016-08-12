@@ -6,7 +6,7 @@ interface QueueInterface
 {
 
     /**
-     * @param Message $message
+     * @param Message\Message $message
      * @param int $ttl
      *
      * @return bool
@@ -16,7 +16,7 @@ interface QueueInterface
     /**
      * @param integer $limit
      *
-     * @return Message[]
+     * @return Message\Message[]
      *
      * @throws \Exception
      */

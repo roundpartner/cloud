@@ -44,7 +44,7 @@ class Poll
     }
 
     /**
-     * @return Message
+     * @return Message\Message
      */
     public function next()
     {
@@ -66,7 +66,7 @@ class Poll
     }
 
     /**
-     * @return Message[]
+     * @return Message\Message[]
      */
     private function pollQueue()
     {

@@ -26,7 +26,7 @@ class MultiQueue implements QueueInterface
     }
 
     /**
-     * @param Message $message
+     * @param Message\Message $message
      * @param int $ttl
      *
      * @return bool
@@ -41,7 +41,7 @@ class MultiQueue implements QueueInterface
      * @param int $grace
      * @param int ttl
      *
-     * @return Message[]
+     * @return Message\Message[]
      *
      * @throws \Exception
      */

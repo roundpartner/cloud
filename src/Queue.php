@@ -55,7 +55,7 @@ class Queue implements QueueInterface
      * @param int $grace
      * @param int $ttl
      *
-     * @return Message[]
+     * @return Message\Message[]
      *
      * @throws \Exception
      */
@@ -78,7 +78,7 @@ class Queue implements QueueInterface
     /**
      * @param \OpenCloud\Queues\Resource\Message[] $messages
      *
-     * @return Message[]
+     * @return Message\Message[]
      *
      * @throws \Exception
      */
@@ -91,7 +91,7 @@ class Queue implements QueueInterface
         }
 
         foreach ($messages as $message) {
-            $response[] = new Message($message, $this->secret);
+            $response[] = new Message\Message($message, $this->secret);
         }
         return $response;
     }
