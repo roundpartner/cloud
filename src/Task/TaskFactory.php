@@ -27,16 +27,16 @@ class TaskFactory
     /**
      * Create an invoice task that is used for generating invoices
      *
-     * @param int $accountId
+     * @param int $userId
      * @param int $invoiceId
      * @param string $container
      *
      * @return Task
      */
-    public static function invoice($accountId, $invoiceId, $container = null)
+    public static function invoice($userId, $invoiceId, $container = null)
     {
         $arguments = array(
-            "--account={$accountId}",
+            "--user={$userId}",
             "--invoice={$invoiceId}",
         );
 
