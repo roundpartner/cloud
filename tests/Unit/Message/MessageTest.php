@@ -1,6 +1,6 @@
 <?php
 
-namespace RoundPartner\Unit;
+namespace RoundPartner\Unit\Message;
 
 use RoundPartner\Cloud\Message\Message;
 use RoundPartner\Tests\Mock\MessageMock;
