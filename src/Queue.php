@@ -3,6 +3,8 @@
 namespace RoundPartner\Cloud;
 
 use OpenCloud\Queues\Resource\Claim;
+use OpenCloud\Queues\Resource\Message;
+use RoundPartner\Cloud\Queue\Entity\Stats;
 use RoundPartner\VerifyHash\VerifyHash;
 
 class Queue implements QueueInterface
@@ -70,6 +72,11 @@ class Queue implements QueueInterface
         return $this->processMessages($messages);
     }
 
+    /**
+     * @param array $options
+     *
+     * @return Message[]
+     */
     private function claimMessages(array $options = array())
     {
         return $this->service->claimMessages($options);
@@ -103,5 +110,14 @@ class Queue implements QueueInterface
     {
         $response = $this->service->delete();
         return 204 === $response->getStatusCode();
+    }
+
+    /**
+     * @return Stats
+     */
+    public function getStats()
+    {
+        $stats = $this->service->getStats();
+        return Stats::factory($stats);
     }
 }

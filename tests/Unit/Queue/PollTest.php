@@ -14,10 +14,6 @@ class PollTest extends \PHPUnit_Framework_TestCase
      */
     protected $queue;
 
-    /**
-     * @var Poll
-     */
-
     public function setUp()
     {
         $this->queue = new QueueMock();

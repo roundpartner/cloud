@@ -44,11 +44,6 @@ class CloudTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\RoundPartner\Cloud\QueueInterface', $this->client->queue(self::TEST_QUEUE));
     }
 
-    public function testDeleteQueue()
-    {
-        $this->assertTrue($this->client->queue(self::TEST_NEW_QUEUE)->delete());
-    }
-
     public function testQueueCreate()
     {
         $this->assertInstanceOf('\RoundPartner\Cloud\QueueInterface', $this->client->queue(self::TEST_NEW_QUEUE));
