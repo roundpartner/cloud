@@ -98,7 +98,7 @@ class Queue implements QueueInterface
         }
 
         foreach ($messages as $message) {
-            $response[] = new Message\Message($message, $this->secret);
+            $response[] = new \RoundPartner\Cloud\Message\Message($message, $this->secret);
         }
         return $response;
     }
