@@ -19,12 +19,22 @@ class QueueFactory
     public static function create($client, $secret, $queue, $serviceName = 'cloudQueues', $region = 'LON')
     {
         $service = self::getService($client, $serviceName, $region);
-        if ($service->hasQueue($queue)) {
-            $queueInstance = $service->getQueue($queue);
-            return new Queue($queueInstance, $secret);
-        }
-        $queueInstance = $service->createQueue($queue);
+        $queueInstance = self::createQueueInstance($service, $queue);
         return new Queue($queueInstance, $secret);
+    }
+
+    /**
+     * @param \OpenCloud\Queues\Service $service
+     * @param string $queue
+     *
+     * @return Queue
+     */
+    private static function createQueueInstance($service, $queue)
+    {
+        if ($service->hasQueue($queue)) {
+            return $service->getQueue($queue);
+        }
+        return $service->createQueue($queue);
     }
 
     /**
