@@ -54,13 +54,32 @@ class CloudTest extends \PHPUnit_Framework_TestCase
         $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Task\Entity\Task());
     }
 
+    public function testGetMessage()
+    {
+        $queue = $this->client->queue(self::TEST_QUEUE);
+        $task = new \RoundPartner\Cloud\Task\Entity\Task();
+        $queue->addMessage($task);
+        $message = $queue->getMessage($queue->getStats()->newest);
+        $this->assertInstanceOf('\RoundPartner\Cloud\Message\Message', $message);
+    }
+
+    public function testGetMessageContainsTask()
+    {
+        $queue = $this->client->queue(self::TEST_QUEUE);
+        $task = new \RoundPartner\Cloud\Task\Entity\Task();
+        $task->taskName = 'this is a test';
+        $queue->addMessage($task);
+        $message = $queue->getMessage($queue->getStats()->newest);
+        $this->assertInstanceOf('\RoundPartner\Cloud\Task\Entity\Task', $message->getBody());
+    }
+
     public function testGetMessages()
     {
         $this->messages = $this->client->queue(self::TEST_QUEUE)->getMessages();
         $this->assertContainsOnlyInstancesOf('\RoundPartner\Cloud\Message\Message', $this->messages);
     }
 
-    public function testGetMessageIsTask()
+    public function testGetMessagesIsTask()
     {
         $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Task\Entity\Task());
         $this->messages = $this->client->queue(self::TEST_QUEUE)->getMessages();

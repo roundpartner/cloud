@@ -4,6 +4,7 @@ namespace RoundPartner\Cloud;
 
 use OpenCloud\Queues\Resource\Claim;
 use OpenCloud\Queues\Resource\Message;
+use RoundPartner\Cloud\Queue\Entity\MessageStats;
 use RoundPartner\Cloud\Queue\Entity\Stats;
 use RoundPartner\VerifyHash\VerifyHash;
 
@@ -66,6 +67,19 @@ class Queue implements QueueInterface
         ));
 
         return $this->processMessages($messages);
+    }
+
+    /**
+     * @param MessageStats $messageStat
+     *
+     * @return \RoundPartner\Cloud\Message\Message
+     */
+    public function getMessage($messageStat)
+    {
+        $hrefParts = explode('/', $messageStat->href);
+        $href = array_pop($hrefParts);
+        $message = $this->service->getMessage($href);
+        return new \RoundPartner\Cloud\Message\Message($message, $this->secret);
     }
 
     /**
