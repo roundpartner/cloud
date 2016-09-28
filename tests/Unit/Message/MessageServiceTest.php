@@ -35,6 +35,11 @@ class MessageServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->service->post($this->getObject()));
     }
 
+    public function testPostFailsOnInvalidObject()
+    {
+        $this->assertFalse($this->service->post($this->getInvalidObject()));
+    }
+
     public function testGetReturnsArray()
     {
         $this->assertInternalType('array', $this->service->get());
@@ -58,6 +63,14 @@ class MessageServiceTest extends \PHPUnit_Framework_TestCase
     {
         $object = new \stdClass();
         $object->hash = base64_encode(openssl_random_pseudo_bytes(64));
+        return $object;
+    }
+
+    private function getInvalidObject()
+    {
+        $object = new \stdClass();
+        $object->fail = function () {
+        };
         return $object;
     }
 }

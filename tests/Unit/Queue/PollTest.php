@@ -26,6 +26,13 @@ class PollTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('hello world', $this->poll->next());
     }
 
+    public function testPollExpires()
+    {
+        $this->queue->addMessage('hello world');
+        sleep(1);
+        $this->assertNull($this->poll->next());
+    }
+
     public function testHasNext()
     {
         $this->queue->addMessage('hello world');

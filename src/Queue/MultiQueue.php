@@ -51,7 +51,7 @@ class MultiQueue implements QueueInterface
         $messages = array();
         foreach ($this->queues as $queue) {
             $limit = $originalLimit - count($messages);
-            if ($limit < 0) {
+            if ($limit <= 0) {
                 return $messages;
             }
             $messages = array_merge($messages, $queue->getMessages($limit, $grace, $ttl));

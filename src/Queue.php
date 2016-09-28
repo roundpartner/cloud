@@ -40,15 +40,11 @@ class Queue implements QueueInterface
      */
     public function addMessage($message, $ttl = 600)
     {
-        $verifyHash = new VerifyHash($this->secret);
-        $messageString = serialize($message);
-        $object = array(
-            'body' => array(
-                'serial' => $messageString,
-                'sha1' => $verifyHash->hash($messageString),
-            ),
-            'ttl' => $ttl
-        );
+        $messageString = $this->serialiseMessage($message);
+        if ($messageString === false) {
+            return false;
+        }
+        $object = $this->createMessageObject($ttl, $messageString);
         return $this->service->createMessage($object);
     }
 
@@ -119,5 +115,39 @@ class Queue implements QueueInterface
     {
         $stats = $this->service->getStats();
         return Stats::factory($stats);
+    }
+
+    /**
+     * @param $message
+     * @return bool|string
+     */
+    private function serialiseMessage($message)
+    {
+        try {
+            $messageString = serialize($message);
+            return $messageString;
+        } catch (\Exception $exception) {
+            $messageString = false;
+            return $messageString;
+        }
+        return $messageString;
+    }
+
+    /**
+     * @param $ttl
+     * @param $messageString
+     * @return array
+     */
+    private function createMessageObject($ttl, $messageString)
+    {
+        $verifyHash = new VerifyHash($this->secret);
+        $object = array(
+            'body' => array(
+                'serial' => $messageString,
+                'sha1' => $verifyHash->hash($messageString),
+            ),
+            'ttl' => $ttl
+        );
+        return $object;
     }
 }

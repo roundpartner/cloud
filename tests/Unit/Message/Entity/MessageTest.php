@@ -43,4 +43,16 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $result = ErrorMessage::factory('hello world');
         $this->assertEquals('error', $result->type);
     }
+
+    public function testGetContent()
+    {
+        $result = SuccessMessage::factory('hello world');
+        $this->assertEquals('hello world', $result->getContent());
+    }
+
+    public function testGetType()
+    {
+        $result = SuccessMessage::factory('hello world');
+        $this->assertEquals('success', $result->getType());
+    }
 }

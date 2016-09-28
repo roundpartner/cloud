@@ -44,26 +44,17 @@ class MultiQueueTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMessagesReturnsFromMultipleQueues()
     {
-        foreach (range(1, 5) as $index) {
-            $queue = new QueueMock();
-            $queue->addMessage($index);
-            $this->service->addQueue($queue);
-        }
-        $result = $this->service->getMessages();
+        $this->setUpMultiQueue();
+        $result = $this->service->getMessages(5);
         $this->assertCount(5, $result);
     }
 
     public function testGetMessageReturnsFromMultipleQueuesInLimit()
     {
-        foreach (range(1, 5) as $index) {
-            $queue = new QueueMock();
-            $queue->addMessage($index);
-            $this->service->addQueue($queue);
-        }
+        $this->setUpMultiQueue();
         $result = $this->service->getMessages(2);
         $this->assertCount(2, $result);
     }
-
 
     /**
      * @return MultiQueue
@@ -71,5 +62,14 @@ class MultiQueueTest extends \PHPUnit_Framework_TestCase
     private function addQueue()
     {
         return $this->service->addQueue(new QueueMock());
+    }
+
+    private function setUpMultiQueue()
+    {
+        foreach (range(1, 15) as $index) {
+            $queue = new QueueMock();
+            $queue->addMessage($index);
+            $this->service->addQueue($queue);
+        }
     }
 }
