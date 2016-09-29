@@ -45,7 +45,7 @@ class TaskFactory
         }
 
         return self::create(
-            'pdf invoice',
+            'pdf invoice [user_id=' . $userId . ', invoiceId=' . $invoiceId . ']',
             'pdf',
             'invoice',
             $arguments
@@ -61,7 +61,7 @@ class TaskFactory
     public static function cloudBackupAsExcel($userId, $container)
     {
         return self::create(
-            'excel backup to cloud',
+            'excel backup to cloud [user_id=' . $userId . ']',
             'backUp',
             'asExcel',
             array (
@@ -83,7 +83,7 @@ class TaskFactory
     public static function importCustomers($userId, $container, $file, $type, $jobType = '')
     {
         return self::create(
-            'import customers',
+            'import customers [user_id=' . $userId . ']',
             'import',
             'customers',
             array(
@@ -104,7 +104,7 @@ class TaskFactory
     public static function emailUserResetPassword($userId)
     {
         return self::create(
-            'reset user password',
+            'reset user password [user_id=' . $userId . ']',
             'user',
             'reset',
             array("--user={$userId}")
