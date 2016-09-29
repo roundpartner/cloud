@@ -58,6 +58,7 @@ class CloudTest extends \PHPUnit_Framework_TestCase
     {
         $queue = $this->client->queue(self::TEST_QUEUE);
         $task = new \RoundPartner\Cloud\Task\Entity\Task();
+        $task->taskName = 'this is a test';
         $queue->addMessage($task);
         $message = $queue->getMessage($queue->getStats()->newest);
         $this->assertInstanceOf('\RoundPartner\Cloud\Message\Message', $message);
@@ -71,6 +72,16 @@ class CloudTest extends \PHPUnit_Framework_TestCase
         $queue->addMessage($task);
         $message = $queue->getMessage($queue->getStats()->newest);
         $this->assertInstanceOf('\RoundPartner\Cloud\Task\Entity\Task', $message->getBody());
+    }
+
+    public function testGetMessageContainsTaskName()
+    {
+        $queue = $this->client->queue(self::TEST_QUEUE);
+        $task = new \RoundPartner\Cloud\Task\Entity\Task();
+        $task->taskName = 'this is a test';
+        $queue->addMessage($task);
+        $message = $queue->getMessage($queue->getStats()->newest)->getBody();
+        $this->assertEquals('this is a test', $message->taskName);
     }
 
     public function testGetMessages()
