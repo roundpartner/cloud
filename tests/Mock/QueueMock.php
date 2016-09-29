@@ -31,12 +31,14 @@ class QueueMock implements QueueInterface
 
     /**
      * @param integer $limit
+     * @param integer $grace
+     * @param integer $ttl
      *
      * @return mixed[]
      *
      * @throws \Exception
      */
-    public function getMessages($limit = 10)
+    public function getMessages($limit = 10, $grace = 0, $ttl = 0)
     {
         return array_splice($this->messages, 0, $limit);
     }

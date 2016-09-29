@@ -31,4 +31,14 @@ class Poll
      * @var int
      */
     public $maxMessageBuffer;
+
+    /**
+     * @var int
+     */
+    public $grace;
+
+    /**
+     * @var int
+     */
+    public $ttl;
 }
