@@ -51,10 +51,12 @@ class Queue implements QueueInterface
 
     /**
      * @param int $limit
-     * @param int $grace
-     * @param int $ttl
+     * @param int $grace Seconds to extend life time of task when it is put back into the queue
+     * @param int $ttl Seconds to hold onto the task when taken from the queue
      *
      * @return Message\Message[]
+     *
+     * @see https://developer.rackspace.com/docs/cloud-queues/v1/api-reference/claims-operations/#claim-messages
      *
      * @throws \Exception
      */
