@@ -56,6 +56,20 @@ class MultiQueueTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $result);
     }
 
+    public function testGetManyMessagesFromMultiQueues()
+    {
+        $queue = new QueueMock();
+        foreach (range(1, 5, 1) as $queueIteration) {
+            foreach (range(1, 25, 1) as $iteration) {
+                $queue->addMessage('hello world ' . $iteration . ' ' . $queueIteration);
+            }
+            $this->service->addQueue($queue);
+        }
+        $this->service->getMessages(80);
+        $result = $this->service->getMessages(80);
+        $this->assertCount(45, $result);
+    }
+
     /**
      * @return MultiQueue
      */

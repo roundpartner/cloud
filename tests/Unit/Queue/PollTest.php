@@ -14,6 +14,11 @@ class PollTest extends \PHPUnit_Framework_TestCase
      */
     protected $queue;
 
+    /**
+     * @var Poll
+     */
+    protected $poll;
+
     public function setUp()
     {
         $this->queue = new QueueMock();
@@ -61,5 +66,23 @@ class PollTest extends \PHPUnit_Framework_TestCase
         $this->poll = PollFactory::create($this->queue, PollFactory::MINUTE);
         sleep(1);
         $this->assertEquals(PollFactory::MINUTE - 1, $this->poll->getTimeRemaining());
+    }
+
+    public function testGetFiftyTasks()
+    {
+        foreach (range(1, 50, 1) as $iteration) {
+            $this->queue->addMessage('hello world ' . $iteration);
+        }
+        foreach (range(1, 50, 1) as $iteration) {
+            $this->assertEquals('hello world ' . $iteration, $this->poll->next());
+        }
+    }
+
+    public function testGetAllTasksAfterTimeout()
+    {
+        $this->queue->addMessage('hello world');
+        $this->poll->hasNext();
+        sleep(1);
+        $this->assertEquals('hello world', $this->poll->next());
     }
 }
