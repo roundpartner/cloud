@@ -54,11 +54,13 @@ class Poll
     }
 
     /**
+     * @param bool $noPolling
+     *
      * @return bool
      */
-    public function hasNext()
+    public function hasNext($noPolling = false)
     {
-        if (0 === count($this->messages)) {
+        if ($noPolling === false && 0 === count($this->messages)) {
             $this->messages = $this->pollQueue();
         }
 

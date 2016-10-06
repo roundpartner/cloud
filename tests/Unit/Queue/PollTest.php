@@ -44,6 +44,19 @@ class PollTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $this->poll->hasNext());
     }
 
+    public function testHasNextWhenDisabled()
+    {
+        $this->queue->addMessage('hello world');
+        $this->assertEquals(false, $this->poll->hasNext(true));
+    }
+
+    public function testHasNextWhenDisabledAfterPoll()
+    {
+        $this->queue->addMessage('hello world');
+        $this->poll->hasNext();
+        $this->assertEquals(true, $this->poll->hasNext(true));
+    }
+
     public function testHasNextIsFalseWhenEmpty()
     {
         $this->queue->addMessage('hello world');
