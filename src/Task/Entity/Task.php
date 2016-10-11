@@ -23,4 +23,9 @@ class Task
      * @var string[]
      */
     public $arguments;
+
+    /**
+     * @var bool
+     */
+    public $fork;
 }

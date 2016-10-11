@@ -11,16 +11,18 @@ class TaskFactory
      * @param string $command
      * @param string $action
      * @param string[] $arguments
+     * @param bool $fork
      *
      * @return Task
      */
-    public static function create($taskName, $command, $action = null, $arguments = array())
+    public static function create($taskName, $command, $action = null, $arguments = array(), $fork = false)
     {
         $task = new Task();
         $task->taskName = $taskName;
         $task->command = $command;
         $task->action = $action;
         $task->arguments = $arguments;
+        $task->fork = $fork;
         return $task;
     }
 

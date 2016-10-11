@@ -23,6 +23,17 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\RoundPartner\Cloud\Task\Entity\Task', $this->task);
     }
 
+    public function testCreateDoesNotForkByDefault()
+    {
+        $this->assertFalse($this->task->fork);
+    }
+
+    public function testCanFork()
+    {
+        $this->task = TaskFactory::create('taskname', 'command', 'action', array(), true);
+        $this->assertTrue($this->task->fork);
+    }
+
     public function testInvoice()
     {
         $invoice = TaskFactory::invoice(42, 456, 'example');
