@@ -46,6 +46,12 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($task->taskName, 'excel backup to cloud [user_id=42]');
     }
 
+    public function testCloudBackUpAsExcelRunsAsForkedProcess()
+    {
+        $task = TaskFactory::cloudBackupAsExcel(42, 'test-container-name');
+        $this->assertTrue($task->fork);
+    }
+
     public function testImportCustomers()
     {
         $task = TaskFactory::importCustomers(42, 'test-container-name', 'file.csv', 'customers', 'Job');

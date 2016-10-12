@@ -69,7 +69,8 @@ class TaskFactory
             array (
                 "--clientId={$userId}",
                 "--container={$container}",
-            )
+            ),
+            true
         );
     }
 

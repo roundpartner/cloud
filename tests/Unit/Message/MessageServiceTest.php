@@ -21,7 +21,7 @@ class MessageServiceTest extends \PHPUnit_Framework_TestCase
     {
         $config = \RoundPartner\Conf\Service::get('opencloud');
         $this->client = \RoundPartner\Cloud\CloudFactory::create($config['username'], $config['key'], $config['secret']);
-        $queue = $this->client->queue('test_queue');
+        $queue = $this->client->queue('test_message_queue');
         $this->service = new MessageService($queue);
     }
 
