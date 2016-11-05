@@ -6,6 +6,8 @@ use RoundPartner\Cloud\Task\Entity\Task;
 
 class TaskFactory
 {
+    const DEFAULT_VERSION = 1;
+
     /**
      * @param string $taskName
      * @param string $command
@@ -23,6 +25,7 @@ class TaskFactory
         $task->action = $action;
         $task->arguments = $arguments;
         $task->fork = $fork;
+        $task->version = self::DEFAULT_VERSION;
         return $task;
     }
 

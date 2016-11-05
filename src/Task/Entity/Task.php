@@ -28,4 +28,9 @@ class Task
      * @var bool
      */
     public $fork;
+
+    /**
+     * @var int
+     */
+    public $version;
 }
