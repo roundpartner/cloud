@@ -68,4 +68,10 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
         $task = TaskFactory::emailUserResetPassword(42);
         $this->assertEquals($task->taskName, 'reset user password [user_id=42]');
     }
+
+    public function testGoCardlessComplete()
+    {
+        $customer = TaskFactory::goCardlessComplete('example_flow_id');
+        $this->assertEquals($customer->taskName, 'cardless complete [flow=example_flow_id]');
+    }
 }

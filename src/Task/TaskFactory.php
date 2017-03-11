@@ -78,6 +78,23 @@ class TaskFactory
     }
 
     /**
+     * @param string $flowId
+     *
+     * @return Task
+     */
+    public static function goCardlessComplete($flowId)
+    {
+        return self::create(
+            'cardless complete [flow=' . $flowId . ']',
+            'cardless',
+            'complete',
+            array (
+                "--flow={$flowId}",
+            )
+        );
+    }
+
+    /**
      * @param int $userId
      * @param string $container
      * @param string $file
