@@ -74,4 +74,10 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
         $customer = TaskFactory::goCardlessComplete('example_flow_id');
         $this->assertEquals($customer->taskName, 'cardless complete [flow=example_flow_id]');
     }
+
+    public function testSendMandateEmail()
+    {
+        $mandate = TaskFactory::sendMandateEmail(123, 321);
+        $this->assertEquals($mandate->taskName, 'mailing sendMandate [account=123, customer=321]');
+    }
 }

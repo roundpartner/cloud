@@ -95,6 +95,25 @@ class TaskFactory
     }
 
     /**
+     * @param int $accountId
+     * @param int $customerId
+     *
+     * @return Task
+     */
+    public static function sendMandateEmail($accountId, $customerId)
+    {
+        return self::create(
+            'mailing sendMandate [account=' . $accountId . ', customer=' . $customerId . ']',
+            'mailing',
+            'sendMandate',
+            array (
+                "--account={$accountId}",
+                "--customer={$customerId}",
+            )
+        );
+    }
+
+    /**
      * @param int $userId
      * @param string $container
      * @param string $file
