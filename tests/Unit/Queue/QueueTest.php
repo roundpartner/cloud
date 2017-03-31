@@ -18,6 +18,21 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $this->client = \RoundPartner\Cloud\CloudFactory::create($config['username'], $config['key'], $config['secret']);
     }
 
+    public function testGetMessage()
+    {
+        $this->client->queue(self::TEST_QUEUE)->addMessage('hello world');
+        $this->client->queue(self::TEST_QUEUE)->block(9);
+        $response = $this->client->queue(self::TEST_QUEUE)->getMessages();
+        $this->assertEmpty($response);
+    }
+
+    public function testGetMessageUnblocked()
+    {
+        sleep(10);
+        $response = $this->client->queue(self::TEST_QUEUE)->getMessages();
+        $this->assertNotEmpty($response);
+    }
+
     public function testGetStats()
     {
         $this->assertObjectHasAttribute('total', $this->client->queue(self::TEST_QUEUE)->getStats());

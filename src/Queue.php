@@ -2,6 +2,7 @@
 
 namespace RoundPartner\Cloud;
 
+use Guzzle\Http\Exception\ClientErrorResponseException;
 use OpenCloud\Queues\Resource\Claim;
 use OpenCloud\Queues\Resource\Message;
 use RoundPartner\Cloud\Queue\Entity\MessageStats;
@@ -22,6 +23,11 @@ class Queue implements QueueInterface
     protected $secret;
 
     /**
+     * @var int
+     */
+    private $blockTime;
+
+    /**
      * Queue constructor.
      *
      * @param \OpenCloud\Queues\Resource\Queue $queue
@@ -31,6 +37,7 @@ class Queue implements QueueInterface
     {
         $this->service = $queue;
         $this->secret = $secret;
+        $this->blockTime = 0;
     }
 
     /**
@@ -91,7 +98,41 @@ class Queue implements QueueInterface
      */
     private function claimMessages(array $options = array())
     {
-        return $this->service->claimMessages($options);
+        if ($this->isBlocked()) {
+            return false;
+        }
+        try {
+            return $this->service->claimMessages($options);
+        } catch (ClientErrorResponseException $exception) {
+            $responseCode = $exception->getResponse()->getStatusCode();
+            switch ($responseCode) {
+                case 401:
+                case 429:
+                    $this->block();
+                    return false;
+                default:
+                    throw $exception;
+            }
+        }
+    }
+
+    /**
+     * @param int $for
+     *
+     * @return int
+     */
+    public function block($for = 300)
+    {
+        $this->blockTime = time() + $for;
+        return $this->blockTime;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isBlocked()
+    {
+        return time() < $this->blockTime;
     }
 
     /**
