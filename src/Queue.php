@@ -108,6 +108,7 @@ class Queue implements QueueInterface
             switch ($responseCode) {
                 case 401:
                 case 429:
+                case 443:
                     $this->block();
                     return false;
                 default:
