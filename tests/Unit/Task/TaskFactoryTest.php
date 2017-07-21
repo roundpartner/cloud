@@ -80,4 +80,28 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
         $mandate = TaskFactory::sendMandateEmail(123, 321);
         $this->assertEquals($mandate->taskName, 'mailing sendMandate [account=123, customer=321]');
     }
+
+    public function testiftttUserRegistered()
+    {
+        $email = TaskFactory::iftttUserRegistered('test', 'example account name', 'some@email.com');
+        $this->assertEquals($email->taskName, 'user registered');
+    }
+
+    public function testiftttUserRegisteredNameIsQuoted()
+    {
+        $email = TaskFactory::iftttUserRegistered('test', 'example account name', 'some@email.com');
+        $this->assertContains('--username=\'test\'', $email->arguments);
+    }
+
+    public function testiftttUserRegisteredBusinessIsQuoted()
+    {
+        $email = TaskFactory::iftttUserRegistered('test', 'example account name', 'some@email.com');
+        $this->assertContains('--account=\'example account name\'', $email->arguments);
+    }
+
+    public function testiftttUserRegisteredEmailIsQuoted()
+    {
+        $email = TaskFactory::iftttUserRegistered('test', 'example account name', 'some@email.com');
+        $this->assertContains('--email=\'some@email.com\'', $email->arguments);
+    }
 }

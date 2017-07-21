@@ -152,4 +152,39 @@ class TaskFactory
             array("--user={$userId}")
         );
     }
+
+    /**
+     * @param string $username
+     * @param string $account
+     * @param string $email
+     *
+     * @return Task
+     */
+    public static function iftttUserRegistered($username, $account, $email)
+    {
+        $username = self::addQuotes($username);
+        $account = self::addQuotes($account);
+        $email = self::addQuotes($email);
+
+        return self::create(
+            'user registered',
+            'ifttt',
+            'registered',
+            array(
+                "--username={$username}",
+                "--account={$account}",
+                "--email={$email}",
+            )
+        );
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return string
+     */
+    public static function addQuotes($string)
+    {
+        return escapeshellarg($string);
+    }
 }
