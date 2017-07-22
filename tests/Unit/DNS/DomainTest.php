@@ -3,16 +3,21 @@
 namespace RoundPartner\Test\Unit\Domain;
 
 use RoundPartner\Cloud\Domain\DomainFactory;
-use RoundPartner\Cloud\Service\Cloud;
-use RoundPartner\Conf\Service;
+use OpenCloud\Tests\MockSubscriber;
+use RoundPartner\Tests\CloudTestCase;
 use RoundPartner\Cloud\Domain\Domain;
 
-class DomainTest extends \PHPUnit_Framework_TestCase
+class DomainTest extends CloudTestCase
 {
     /**
      * @var Domain
      */
-    protected $service;
+    public $service;
+
+    /**
+     * @var \RoundPartner\Cloud\Cloud
+     */
+    public $client;
 
     /**
      * @var array
@@ -21,19 +26,39 @@ class DomainTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $config = Service::get('opencloud');
-        $client = new Cloud($config['username'], $config['key']);
-        $this->service = DomainFactory::create($client);
-        $this->domainConfig = Service::get('testdomain');
+        $this->client = $this->newClient();
+        $this->client->addSubscriber(new MockSubscriber());
+        $this->service = DomainFactory::create($this->client);
+        $this->domainConfig = array(
+            'domain' => 'test',
+            'home' => 'test.domain.com',
+            'ip' => '127.0.0.1',
+        );
     }
 
-    public function testGetDomain()
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::domain()
+     */
+    public function testGetDomain($body, $status)
     {
+        $this->addMockSubscriber($this->makeResponse($body, $status));
         $this->assertInstanceOf('\OpenCloud\DNS\Resource\Domain', $this->service->getDomain($this->domainConfig['domain']));
     }
 
-    public function testUpdateSubDomain()
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::domain()
+     */
+    public function testUpdateSubDomain($body, $status)
     {
+        $this->addMockSubscriber($this->makeResponse($body, $status));
+        $this->addMockSubscriber($this->makeResponse($body, $status));
+        $this->addMockSubscriber($this->makeResponse(null, 201));
         $domain = $this->service->getDomain($this->domainConfig['domain']);
         $result = $this->service->updateSubDomain($domain, $this->domainConfig['home'], $this->domainConfig['ip']);
         $this->assertTrue($result);
