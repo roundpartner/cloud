@@ -11,5 +11,5 @@ interface CloudInterface
      * @param Service\Cloud $client
      * @param string $secret
      */
-    public function __construct(Service\Cloud $client, $secret);
+    public function __construct($client, $secret);
 }
