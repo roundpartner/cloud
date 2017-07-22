@@ -3,10 +3,15 @@
 namespace RoundPartner\Unit;
 
 use RoundPartner\Cloud\Message\MessageService;
+use OpenCloud\Tests\MockSubscriber;
 use RoundPartner\Cloud\Queue;
+use RoundPartner\Tests\CloudTestCase;
 
-class MessageServiceTest extends \PHPUnit_Framework_TestCase
+class MessageServiceTest extends CloudTestCase
 {
+
+    const TEST_QUEUE = 'tasks_dev';
+
     /**
      * @var MessageService
      */
@@ -15,13 +20,13 @@ class MessageServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \RoundPartner\Cloud\Cloud
      */
-    protected $client;
+    public $client;
 
     public function setUp()
     {
-        $config = \RoundPartner\Conf\Service::get('opencloud');
-        $this->client = \RoundPartner\Cloud\CloudFactory::create($config['username'], $config['key'], $config['secret']);
-        $queue = $this->client->queue('test_message_queue');
+        $this->client = $this->newClient();
+        $this->client->addSubscriber(new MockSubscriber());
+        $queue = Queue\QueueFactory::create($this->client, 'secret', self::TEST_QUEUE, 'cloudQueues', 'DFW');
         $this->service = new MessageService($queue);
     }
 
@@ -45,18 +50,33 @@ class MessageServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $this->service->get());
     }
 
-    public function testGetReturnsSingleMessage()
+    public function testPostMessage()
     {
         $this->assertTrue($this->service->post($this->getObject()));
+    }
+
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::message()
+     */
+    public function testGetReturnsSingleMessage($body, $status)
+    {
+        $this->addMockSubscriber($this->makeResponse($body, $status));
         $this->assertCount(1, $this->service->get());
     }
 
-    public function testGetReturnsMultipleMessages()
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::messages()
+     */
+    public function testGetReturnsMultipleMessages($body, $status)
     {
-        foreach (range(1, 5) as $total) {
-            $this->assertTrue($this->service->post($this->getObject()));
-        }
-        $this->assertCount($total, $this->service->get());
+        $this->addMockSubscriber($this->makeResponse($body, $status));
+        $this->assertCount(5, $this->service->get());
     }
 
     private function getObject()
