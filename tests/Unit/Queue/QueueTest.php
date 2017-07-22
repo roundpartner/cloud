@@ -34,63 +34,42 @@ class QueueTest extends CloudTestCase
         $this->assertEmpty($response);
     }
 
-    public function testGetSingleMessage()
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::message()
+     */
+    public function testGetSingleMessage($body, $status)
     {
-        $body = <<<BODY
-[
-    {
-      "body": {
-        "event": "BackupStarted"
-      },
-      "age": 296,
-      "href": "/v1/queues/demoqueue/messages/51db6f78c508f17ddc924357?claim_id=51db7067821e727dc24df754",
-      "ttl": 300
-    }
-]
-BODY;
-
-        $this->addMockSubscriber($this->makeResponse($body, 200));
+        $this->addMockSubscriber($this->makeResponse($body, $status));
         $response = $this->service->getMessages();
         $this->assertCount(1, $response);
     }
 
-    public function testGetNoMessageWhenBlocked()
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::message()
+     */
+    public function testGetNoMessageWhenBlocked($body, $status)
     {
-        $body = <<<BODY
-[
-    {
-      "body": {
-        "event": "BackupStarted"
-      },
-      "age": 296,
-      "href": "/v1/queues/demoqueue/messages/51db6f78c508f17ddc924357?claim_id=51db7067821e727dc24df754",
-      "ttl": 300
-    }
-]
-BODY;
-
-        $this->addMockSubscriber($this->makeResponse($body, 200));
+        $this->addMockSubscriber($this->makeResponse($body, $status));
         $this->service->block(1);
         $response = $this->service->getMessages();
         $this->assertEmpty($response);
     }
 
-    public function testGetMessageWhenUnblocked()
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::message()
+     */
+    public function testGetMessageWhenUnblocked($body, $status)
     {
-        $body = <<<BODY
-[
-    {
-      "body": {
-        "event": "BackupStarted"
-      },
-      "age": 296,
-      "href": "/v1/queues/demoqueue/messages/51db6f78c508f17ddc924357?claim_id=51db7067821e727dc24df754",
-      "ttl": 300
-    }
-]
-BODY;
-
-        $this->addMockSubscriber($this->makeResponse($body, 200));
+        $this->addMockSubscriber($this->makeResponse($body, $status));
         $this->service->block(1);
         sleep(1);
         $response = $this->service->getMessages();
