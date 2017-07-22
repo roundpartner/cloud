@@ -49,11 +49,6 @@ class CloudTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\RoundPartner\Cloud\QueueInterface', $this->client->queue(self::TEST_NEW_QUEUE));
     }
 
-    public function testAddMessage()
-    {
-        $this->client->queue(self::TEST_QUEUE)->addMessage(new \RoundPartner\Cloud\Task\Entity\Task());
-    }
-
     public function testGetMessage()
     {
         $queue = $this->client->queue(self::TEST_QUEUE);

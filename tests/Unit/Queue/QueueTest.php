@@ -96,4 +96,9 @@ BODY;
         $this->addMockSubscriber($this->makeResponse(null, 204));
         $this->assertTrue($this->service->delete());
     }
+
+    public function testAddMessage()
+    {
+        $this->assertTrue($this->service->addMessage(new \RoundPartner\Cloud\Task\Entity\Task()));
+    }
 }
