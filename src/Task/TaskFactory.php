@@ -174,7 +174,8 @@ class TaskFactory
                 "--username={$username}",
                 "--account={$account}",
                 "--email={$email}",
-            )
+            ),
+            true
         );
     }
 
