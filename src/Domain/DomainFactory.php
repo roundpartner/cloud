@@ -9,11 +9,13 @@ class DomainFactory
 
     /**
      * @param Rackspace $client
+     * @param string $serviceName
+     * @param string $region
      *
      * @return Domain
      */
-    public static function create($client)
+    public static function create($client, $serviceName = 'cloudDNS', $region = 'LON')
     {
-        return new Domain($client);
+        return new Domain($client, $serviceName, $region);
     }
 }

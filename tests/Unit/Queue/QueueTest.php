@@ -53,6 +53,62 @@ class QueueTest extends CloudTestCase
      *
      * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::message()
      */
+    public function testGetSingleMessageIsTask($body, $status)
+    {
+        $this->addMockSubscriber($this->makeResponse($body, $status));
+        $response = $this->service->getMessages();
+        $message = array_shift($response);
+        $this->assertInstanceOf('\RoundPartner\Cloud\Message\Message', $message);
+    }
+
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::message()
+     */
+    public function testGetMessageIsInstanceOfMessage($body, $status)
+    {
+        $stat = Queue\Entity\MessageStats::factory((object)['age' => 150, 'href' => 'localhost', 'created' => '']);
+        $this->addMockSubscriber($this->makeResponse($body, $status));
+        $message = $this->service->getMessage($stat);
+        $this->assertInstanceOf('\RoundPartner\Cloud\Message\Message', $message);
+    }
+
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::task()
+     */
+    public function testGetMessageIsInstanceOfTask($body, $status)
+    {
+        $stat = Queue\Entity\MessageStats::factory((object)['age' => 150, 'href' => 'localhost', 'created' => '']);
+        $this->addMockSubscriber($this->makeResponse($body, $status));
+        $task = $this->service->getMessage($stat)->getBody();
+        $this->assertInstanceOf('\RoundPartner\Cloud\Task\Entity\Task', $task);
+    }
+
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::task()
+     */
+    public function testGetMessageContainsTaskName($body, $status)
+    {
+        $stat = Queue\Entity\MessageStats::factory((object)['age' => 150, 'href' => 'localhost', 'created' => '']);
+        $this->addMockSubscriber($this->makeResponse($body, $status));
+        $task = $this->service->getMessage($stat)->getBody();
+        $this->assertEquals('hello world', $task->taskName);
+    }
+
+    /**
+     * @param string $body
+     * @param int $status
+     *
+     * @dataProvider \RoundPartner\Tests\Providers\QueueProvider::message()
+     */
     public function testGetNoMessageWhenBlocked($body, $status)
     {
         $this->addMockSubscriber($this->makeResponse($body, $status));
@@ -99,6 +155,8 @@ BODY;
 
     public function testAddMessage()
     {
-        $this->assertTrue($this->service->addMessage(new \RoundPartner\Cloud\Task\Entity\Task()));
+        $task = new \RoundPartner\Cloud\Task\Entity\Task();
+        $task->taskName = 'hello world';
+        $this->assertTrue($this->service->addMessage($task));
     }
 }
