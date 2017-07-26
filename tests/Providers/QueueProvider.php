@@ -80,19 +80,35 @@ BODY;
         return [[$body, 200]];
     }
 
+    public static function task()
+    {
+        $body = <<<BODY
+{
+	"href": "/v1/queues/demoqueue/messages/51db6f78c508f17ddc924357?claim_id=51db7067821e727dc24df754",
+	"age": 296,
+	"ttl": 600,
+	"body": {
+		"serial": "O:35:\"RoundPartner\\\\Cloud\\\\Task\\\\Entity\\\\Task\":6:{s:8:\"taskName\";s:11:\"hello world\";s:7:\"command\";N;s:6:\"action\";N;s:9:\"arguments\";N;s:4:\"fork\";N;s:7:\"version\";N;}",
+		"sha1": "d4c435d6047cd6947c83f5441dc3681d0b76bf88"
+	}
+}
+BODY;
+        return [[$body, 200]];
+    }
+
     public static function message()
     {
         $body = <<<BODY
 [
-    {
-      "body": {
-        "serial": "a:0:{}",
-        "sha1": "87b0509503c94fffef003156afa80d9bc40c99e2"
-      },
-      "age": 296,
-      "href": "/v1/queues/demoqueue/messages/51db6f78c508f17ddc924357?claim_id=51db7067821e727dc24df754",
-      "ttl": 300
-    }
+  {
+	"href": "/v1/queues/demoqueue/messages/51db6f78c508f17ddc924357?claim_id=51db7067821e727dc24df754",
+	"age": 296,
+	"ttl": 600,
+	"body": {
+		"serial": "O:35:\"RoundPartner\\\\Cloud\\\\Task\\\\Entity\\\\Task\":6:{s:8:\"taskName\";s:11:\"hello world\";s:7:\"command\";N;s:6:\"action\";N;s:9:\"arguments\";N;s:4:\"fork\";N;s:7:\"version\";N;}",
+		"sha1": "d4c435d6047cd6947c83f5441dc3681d0b76bf88"
+	}
+  }
 ]
 BODY;
         return [[$body, 200]];

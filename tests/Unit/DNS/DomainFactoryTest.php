@@ -2,9 +2,8 @@
 
 namespace RoundPartner\Test\Unit\Domain;
 
+use OpenCloud\Tests\MockSubscriber;
 use RoundPartner\Cloud\Domain\DomainFactory;
-use RoundPartner\Cloud\Service\Cloud;
-use RoundPartner\Conf\Service;
 use RoundPartner\Tests\CloudTestCase;
 
 class DomainFactoryTest extends CloudTestCase
@@ -12,11 +11,15 @@ class DomainFactoryTest extends CloudTestCase
 
     protected $mockPath = 'DNS';
 
+    public function setUp()
+    {
+        $this->client = $this->newClient();
+        $this->client->addSubscriber(new MockSubscriber());
+    }
+
     public function testCreate()
     {
-        $config = Service::get('opencloud');
-        $client = new Cloud($config['username'], $config['key']);
-        $instance = DomainFactory::create($client);
+        $instance = DomainFactory::create($this->client);
         $this->assertInstanceOf('\RoundPartner\Cloud\Domain\Domain', $instance);
     }
 }

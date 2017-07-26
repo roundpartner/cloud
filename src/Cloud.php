@@ -59,46 +59,55 @@ class Cloud implements CloudInterface
 
     /**
      * @param string $queue
+     * @param string $serviceName
+     * @param string $region
      *
      * @return Queue
      */
-    public function queue($queue)
+    public function queue($queue, $serviceName = 'cloudQueues', $region = 'LON')
     {
         if (!isset($this->queueServices[$queue])) {
-            $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue);
+            $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue, $serviceName, $region);
         }
         return $this->queueServices[$queue];
     }
 
     /**
-     * @param $queue
+     * @param string $queue
+     * @param string $serviceName
+     * @param string $region
      *
      * @return MessageService
      */
-    public function message($queue)
+    public function message($queue, $serviceName = 'cloudQueues', $region = 'LON')
     {
-        $queue = $this->queue($queue);
+        $queue = $this->queue($queue, $serviceName, $region);
         return new MessageService($queue);
     }
 
     /**
+     * @param string $serviceName
+     * @param string $region
+     *
      * @return Domain
      */
-    public function domain()
+    public function domain($serviceName = 'cloudDNS', $region = 'LON')
     {
         if (null === $this->domainService) {
-            $this->domainService = DomainFactory::create($this->client);
+            $this->domainService = DomainFactory::create($this->client, $serviceName, $region);
         }
         return $this->domainService;
     }
 
     /**
+     * @param string $region
+     *
      * @return Document
      */
-    public function document()
+    public function document($region = 'LON')
     {
         if (null === $this->documentService) {
-            $this->documentService = DocumentFactory::create($this->client);
+            $this->documentService = DocumentFactory::create($this->client, $region);
         }
         return $this->documentService;
     }

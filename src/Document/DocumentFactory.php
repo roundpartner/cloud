@@ -8,6 +8,7 @@ class DocumentFactory
 {
     /**
      * @param Rackspace $client
+     * @param string $region
      *
      * @return Document
      */
