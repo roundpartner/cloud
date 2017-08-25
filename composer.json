@@ -13,6 +13,10 @@
     {
       "type": "git",
       "url": "https://github.com/roundpartner/verify-hash"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/thomaslorentsen/php-opencloud"
     }
   ],
   "autoload": {
@@ -29,7 +33,7 @@
     }
   },
   "require": {
-    "rackspace/php-opencloud": "^1.16",
+    "thomaslorentsen/php-opencloud": "dev-working",
     "roundpartner/verify-hash": "dev-master"
   },
   "require-dev": {
