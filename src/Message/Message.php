@@ -78,7 +78,7 @@ class Message
     private function unserialiseBody($body)
     {
         $object = unserialize($body);
-        if ($object instanceof __PHP_Incomplete_Class) {
+        if ('__PHP_Incomplete_Class' === get_class($object)) {
             throw new \Exception('Unable to unserialise message');
         }
         return $object;
