@@ -62,14 +62,14 @@ class Message
     {
         $verifyHash = new VerifyHash($this->secret);
         if ($verifyHash->verify($body->sha1, $body->serial)) {
-            return $this->unserialiseBody($body);
+            return $this->unserialiseBody($body->serial);
         } else {
             throw new InvalidSignatureException('Message could not be verified');
         }
     }
 
     /**
-     * @param object $body
+     * @param string $body
      *
      * @return mixed
      *
@@ -77,7 +77,7 @@ class Message
      */
     private function unserialiseBody($body)
     {
-        $object = unserialize($body->serial);
+        $object = unserialize($body);
         if ($object instanceof __PHP_Incomplete_Class) {
             throw new \Exception('Unable to unserialise message');
         }
