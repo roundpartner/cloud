@@ -82,4 +82,17 @@ class CloudTest extends CloudTestCase
     {
         $this->assertInstanceOf('\RoundPartner\Cloud\Message\MessageService', $this->client->message(self::TEST_QUEUE, 'cloudQueues', 'DFW'));
     }
+
+    /**
+     * @return \RoundPartner\Cloud\Queue
+     */
+    protected function getMultipleQueue()
+    {
+        return $this->client->queue(['alfred', 'betty', 'charlie'], 'cloudQueues', 'DFW');
+    }
+
+    public function testMultipleQueue()
+    {
+        $this->assertInstanceOf('\RoundPartner\Cloud\QueueInterface', $this->getMultipleQueue());
+    }
 }

@@ -7,6 +7,7 @@ use RoundPartner\Cloud\Document\DocumentFactory;
 use RoundPartner\Cloud\Domain\Domain;
 use RoundPartner\Cloud\Domain\DomainFactory;
 use RoundPartner\Cloud\Message\MessageService;
+use RoundPartner\Cloud\Queue\MultiQueue;
 use RoundPartner\Cloud\Queue\QueueFactory;
 
 class Cloud implements CloudInterface
@@ -66,10 +67,29 @@ class Cloud implements CloudInterface
      */
     public function queue($queue, $serviceName = 'cloudQueues', $region = 'LON')
     {
+        if (is_array($queue)) {
+            return $this->queueMultiple($queue, $serviceName, $region);
+        }
         if (!isset($this->queueServices[$queue])) {
             $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue, $serviceName, $region);
         }
         return $this->queueServices[$queue];
+    }
+
+    /**
+     * @param array $queues
+     * @param string $serviceName
+     * @param string $region
+     *
+     * @return Queue
+     */
+    private function queueMultiple($queues, $serviceName = 'cloudQueues', $region = 'LON')
+    {
+        $multiQueue = new MultiQueue();
+        foreach ($queues as $queue) {
+            $multiQueue->addQueue($this->queue($queue, $serviceName, $region));
+        }
+        return $multiQueue;
     }
 
     /**
