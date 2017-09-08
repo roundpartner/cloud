@@ -63,7 +63,7 @@ class Cloud implements CloudInterface
      * @param string $serviceName
      * @param string $region
      *
-     * @return Queue
+     * @return QueueInterface
      */
     public function queue($queue, $serviceName = 'cloudQueues', $region = 'LON')
     {
@@ -81,7 +81,7 @@ class Cloud implements CloudInterface
      * @param string $serviceName
      * @param string $region
      *
-     * @return Queue
+     * @return QueueInterface
      */
     private function queueMultiple($queues, $serviceName = 'cloudQueues', $region = 'LON')
     {
