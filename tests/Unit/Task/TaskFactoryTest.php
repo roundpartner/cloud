@@ -84,7 +84,7 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
     public function testiftttUserRegistered()
     {
         $email = TaskFactory::iftttUserRegistered('test', 'example account name', 'some@email.com');
-        $this->assertEquals($email->taskName, 'user registered');
+        $this->assertEquals($email->taskName, 'user registered [user_id=\'test\' template=\'example account name\']');
     }
 
     public function testiftttUserRegisteredNameIsQuoted()
@@ -103,5 +103,11 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $email = TaskFactory::iftttUserRegistered('test', 'example account name', 'some@email.com');
         $this->assertContains('--email=\'some@email.com\'', $email->arguments);
+    }
+
+    public function testSendEmail()
+    {
+        $email = TaskFactory::sendEmail('test', 'welcome', []);
+        $this->assertEquals($email->taskName, 'queue email [user_id=test template=welcome]');
     }
 }

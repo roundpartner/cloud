@@ -154,6 +154,29 @@ class TaskFactory
     }
 
     /**
+     * @param string $userId
+     * @param string $template
+     * @param string $params
+     *
+     * @return Task
+     */
+    public static function sendEmail($userId, $template, $params)
+    {
+        $params = base64_encode(serialize($params));
+
+        return self::create(
+            'queue email [user_id=' . $userId . ' template=' . $template . ']',
+            'mailing',
+            'sendEmail',
+            array(
+                '--user=' . $userId,
+                '--template=' . base64_encode($template),
+                '--params=' . $params
+            )
+        );
+    }
+
+    /**
      * @param string $username
      * @param string $account
      * @param string $email
@@ -167,7 +190,7 @@ class TaskFactory
         $email = self::addQuotes($email);
 
         return self::create(
-            'user registered',
+            'user registered [user_id=' . $username . ' template=' . $account . ']',
             'ifttt',
             'registered',
             array(

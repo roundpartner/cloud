@@ -8,7 +8,7 @@ interface QueueInterface
 {
 
     /**
-     * @param Message\Message $message
+     * @param \RoundPartner\Cloud\Message\Message $message
      * @param int $ttl
      *
      * @return bool
@@ -20,7 +20,7 @@ interface QueueInterface
      * @param int $grace
      * @param int ttl
      *
-     * @return Message\Message[]
+     * @return \RoundPartner\Cloud\Message\Message[]
      *
      * @throws \Exception
      */
