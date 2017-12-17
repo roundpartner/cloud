@@ -142,6 +142,8 @@ class TaskFactory
      * @param int $userId
      *
      * @return Task
+     *
+     * @deprecated
      */
     public static function emailUserResetPassword($userId)
     {
