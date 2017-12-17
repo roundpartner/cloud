@@ -142,8 +142,6 @@ class TaskFactory
      * @param int $userId
      *
      * @return Task
-     *
-     * @deprecated
      */
     public static function emailUserResetPassword($userId)
     {
@@ -161,6 +159,8 @@ class TaskFactory
      * @param string $params
      *
      * @return Task
+     *
+     * @deprecated
      */
     public static function sendEmail($userId, $template, $params)
     {
