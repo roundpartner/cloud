@@ -25,7 +25,7 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testTaskHasAVersion()
     {
-        $this->assertEquals(1, $this->task->version);
+        $this->assertEquals(2, $this->task->version);
     }
 
     public function testCreateDoesNotForkByDefault()
@@ -37,6 +37,11 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->task = TaskFactory::create('taskname', 'command', 'action', array(), true);
         $this->assertTrue($this->task->fork);
+    }
+
+    public function testCreateDoesNotExpire()
+    {
+        $this->assertEquals(0, $this->task->expires);
     }
 
     public function testInvoice()
@@ -55,6 +60,12 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $task = TaskFactory::cloudBackupAsExcel(42, 'test-container-name');
         $this->assertTrue($task->fork);
+    }
+
+    public function testCloudBackUpAsExcelCanExpire()
+    {
+        $task = TaskFactory::cloudBackupAsExcel(42, 'test-container-name');
+        $this->assertGreaterThan(0, $task->expires);
     }
 
     public function testImportCustomers()

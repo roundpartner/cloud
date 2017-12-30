@@ -33,4 +33,9 @@ class Task
      * @var int
      */
     public $version;
+
+    /**
+     * @var int
+     */
+    public $expires;
 }

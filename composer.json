@@ -22,7 +22,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "RoundPartner\\Tests\\": "tests/"
+      "RoundPartner\\Tests\\": "tests/",
+      "Test\\": "vendor/roundpartner/seq-php/tests/"
     },
     "psr-0": {
       "OpenCloud": ["vendor/rackspace/php-opencloud/tests/"]
@@ -34,6 +35,10 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*",
-    "phpunit/phpunit": "^4.8"
+    "phpunit/phpunit": "^4.8",
+    "roundpartner/seq-php": "^0.0.1"
+  },
+  "suggest": {
+    "roundpartner/seq-php": "Support for SEQ"
   }
 }

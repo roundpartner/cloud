@@ -6,7 +6,7 @@ use RoundPartner\Cloud\Task\Entity\Task;
 
 class TaskFactory
 {
-    const DEFAULT_VERSION = 1;
+    const DEFAULT_VERSION = 2;
 
     /**
      * @param string $taskName
@@ -14,10 +14,11 @@ class TaskFactory
      * @param string $action
      * @param string[] $arguments
      * @param bool $fork
+     * @param int $expires
      *
      * @return Task
      */
-    public static function create($taskName, $command, $action = null, $arguments = array(), $fork = false)
+    public static function create($taskName, $command, $action = null, $arguments = array(), $fork = false, $expires = 0)
     {
         $task = new Task();
         $task->taskName = $taskName;
@@ -26,6 +27,7 @@ class TaskFactory
         $task->arguments = $arguments;
         $task->fork = $fork;
         $task->version = self::DEFAULT_VERSION;
+        $task->expires = $expires;
         return $task;
     }
 
@@ -73,7 +75,8 @@ class TaskFactory
                 "--clientId={$userId}",
                 "--container={$container}",
             ),
-            true
+            true,
+            time()+(60*60*24)
         );
     }
 
