@@ -6,7 +6,7 @@ class QueueProvider
 {
     public static function domain()
     {
-        $body = <<<BODY
+        $body = /** @lang json */ <<<BODY
 [{
   "nameservers" : [ {
     "name" : "dns1.stabletransit.com"
