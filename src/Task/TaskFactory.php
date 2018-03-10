@@ -125,7 +125,7 @@ class TaskFactory
     public static function importCustomers($userId, $container, $file, $type, $jobType = '')
     {
         return self::create(
-            'import customers [user_id=' . $userId . ']',
+            'import customers [user_id=' . $userId . ' container=' . $container . ' file=' . $file . ' type=' . $type . ' job_type=' . $jobType . ']',
             'import',
             'customers',
             array(
