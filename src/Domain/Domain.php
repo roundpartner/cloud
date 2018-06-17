@@ -2,6 +2,7 @@
 
 namespace RoundPartner\Cloud\Domain;
 
+use OpenCloud\Common\Exceptions\JsonError;
 use OpenCloud\DNS\Collection\DnsIterator;
 use OpenCloud\DNS\Resource\Record;
 use OpenCloud\DNS\Service;
@@ -64,11 +65,20 @@ class Domain
      * @param string $data
      *
      * @return bool
+     *
+     * @throws JsonError
      */
     private function updateAllRecords(DnsIterator $records, $data)
     {
         foreach ($records as $record) {
-            $this->updateRecord($record, $data);
+            try {
+                $this->updateRecord($record, $data);
+            } catch (JsonError $exception) {
+                if ('Syntax error' === $exception->getMessage()) {
+                    continue;
+                }
+                throw $exception;
+            }
         }
         return true;
     }
