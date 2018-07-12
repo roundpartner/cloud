@@ -10,6 +10,7 @@ class QueueTest extends CloudTestCase
 {
 
     const TEST_QUEUE = 'tasks_dev';
+    const AWS_TEST_QUEUE = 'aws:tasks_dev';
 
     /**
      * @var Queue

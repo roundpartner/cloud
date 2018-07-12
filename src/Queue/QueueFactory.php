@@ -14,6 +14,8 @@ class QueueFactory
      * @param string $serviceName
      * @param string $region
      *
+     * @throws \Exception
+     *
      * @return Queue
      */
     public static function create($client, $secret, $queue, $serviceName = 'cloudQueues', $region = 'LON')
@@ -27,10 +29,15 @@ class QueueFactory
      * @param \OpenCloud\Queues\Service $service
      * @param string $queue
      *
+     * @throws \Exception
+     *
      * @return Queue
      */
     private static function createQueueInstance($service, $queue)
     {
+        if (strpos($queue, 'aws:') === 0) {
+            return new SeqQueue($queue);
+        }
         if ($service->hasQueue($queue)) {
             return $service->getQueue($queue);
         }

@@ -45,9 +45,14 @@ class Message
 
     /**
      * @return bool
+     *
+     * @throws \Exception
      */
     public function delete()
     {
+        if (!$this->message instanceof \OpenCloud\Queues\Resource\Message) {
+            return true;
+        }
         return $this->message->delete($this->message->getClaimIdFromHref());
     }
 

@@ -33,7 +33,7 @@ class Queue implements QueueInterface
      * @param \OpenCloud\Queues\Resource\Queue $queue
      * @param string $secret
      */
-    public function __construct(\OpenCloud\Queues\Resource\Queue $queue, $secret)
+    public function __construct($queue, $secret)
     {
         $this->service = $queue;
         $this->secret = $secret;
