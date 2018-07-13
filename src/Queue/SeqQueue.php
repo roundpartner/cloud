@@ -3,6 +3,7 @@
 namespace RoundPartner\Cloud\Queue;
 
 use GuzzleHttp\Client;
+use RoundPartner\Cloud\Queue\Entity\SqsMessage;
 use RoundPartner\Cloud\Queue\Entity\Stats;
 
 class SeqQueue
@@ -14,12 +15,14 @@ class SeqQueue
      */
     protected $client;
 
-    function __construct($queue)
+    /**
+     * @param \GuzzleHttp\Client $client
+     * @param string $queue
+     */
+    function __construct(Client $client, $queue)
     {
         $this->queue = $queue;
-        $this->client = new Client([
-            'base_uri' => 'http://localhost:6767',
-        ]);
+        $this->client = $client;
     }
 
     /**
@@ -30,8 +33,9 @@ class SeqQueue
      */
     public function createMessage(array $params)
     {
+        $body = unserialize($params['body']['serial']);
         $response = $this->client->post('', [
-            'content' => json_encode($params)
+            'json' => ['content' => json_encode($body)]
         ]);
         if (204 !== $response->getStatusCode()) {
             return false;
@@ -68,12 +72,13 @@ class SeqQueue
         $content = $response->getBody()->getContents();
         $jsonObject = (array) json_decode($content);
         if (empty($jsonObject)) {
-            return null;
+            return [];
         }
-        if (empty($jsonObject->content)) {
-            return null;
+        if (empty($jsonObject['content'])) {
+            return [];
         }
-        return [$jsonObject->content];
+
+        return [new SqsMessage($jsonObject['content'])];
     }
 
     /**

@@ -5,10 +5,12 @@ namespace RoundPartner\Test\Unit;
 use OpenCloud\Tests\MockSubscriber;
 use RoundPartner\Tests\CloudTestCase;
 use RoundPartner\Cloud\Cloud;
+use GuzzleHttp\Client;
 
 class CloudTest extends CloudTestCase
 {
     const TEST_QUEUE = 'tasks_dev';
+    const AWS_TEST_QUEUE = 'aws:tasks_dev';
 
     /**
      * @var \RoundPartner\Cloud\Cloud
@@ -22,9 +24,13 @@ class CloudTest extends CloudTestCase
 
     public function setUp()
     {
+        $awsClient = new Client([
+            'base_uri' => 'http://localhost:6767',
+        ]);
+
         $client = $this->newClient();
         $client->addSubscriber(new MockSubscriber());
-        $this->client = new Cloud($client, 'secret', 'DFW');
+        $this->client = new Cloud($client, $awsClient, 'secret', 'DFW');
 
         $this->messages = array();
     }
@@ -60,6 +66,12 @@ class CloudTest extends CloudTestCase
     public function testQueueCreate()
     {
         $this->assertInstanceOf('\RoundPartner\Cloud\QueueInterface', $this->getQueue());
+    }
+
+    public function testAwsQueue()
+    {
+        $queue = $this->client->queue(self::AWS_TEST_QUEUE, 'cloudQueues', 'DFW');
+        $this->assertInstanceOf('\RoundPartner\Cloud\QueueInterface', $queue);
     }
 
     public function testGetMessages()

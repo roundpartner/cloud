@@ -2,6 +2,7 @@
 
 namespace RoundPartner\Cloud\Message;
 
+use RoundPartner\Cloud\Task\Entity\Task;
 use RoundPartner\VerifyHash\VerifyHash;
 
 class Message
@@ -37,6 +38,9 @@ class Message
     public function getBody()
     {
         $body = $this->message->getBody();
+        if ($body instanceof Task) {
+            return $body;
+        }
         if (isset($body->serial)) {
             return $this->verifyBody($body);
         }

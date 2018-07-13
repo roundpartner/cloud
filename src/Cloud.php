@@ -7,6 +7,7 @@ use RoundPartner\Cloud\Document\DocumentFactory;
 use RoundPartner\Cloud\Domain\Domain;
 use RoundPartner\Cloud\Domain\DomainFactory;
 use RoundPartner\Cloud\Message\MessageService;
+use RoundPartner\Cloud\Queue\AwsQueueFactory;
 use RoundPartner\Cloud\Queue\MultiQueue;
 use RoundPartner\Cloud\Queue\QueueFactory;
 
@@ -17,6 +18,11 @@ class Cloud implements CloudInterface
      * @var \OpenCloud\Rackspace
      */
     protected $client;
+
+    /**
+     * @var \GuzzleHttp\Client
+     */
+    protected $awsClient;
 
     /**
      * @var string
@@ -42,11 +48,13 @@ class Cloud implements CloudInterface
      * Cloud constructor.
      *
      * @param Service\Cloud $client
+     * @param \GuzzleHttp\Client $awsClient
      * @param string $secret
      */
-    public function __construct($client, $secret)
+    public function __construct($client, \GuzzleHttp\Client $awsClient, $secret)
     {
         $this->client = $client;
+        $this->awsClient = $awsClient;
         $this->secret = $secret;
     }
 
@@ -71,7 +79,11 @@ class Cloud implements CloudInterface
             return $this->queueMultiple($queue, $serviceName, $region);
         }
         if (!isset($this->queueServices[$queue])) {
-            $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue, $serviceName, $region);
+            if (strpos($queue, 'aws:') === 0) {
+                $this->queueServices[$queue] = AwsQueueFactory::create($this->awsClient, $this->secret, $queue, $serviceName, $region);
+            } else {
+                $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue, $serviceName, $region);
+            }
         }
         return $this->queueServices[$queue];
     }

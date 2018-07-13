@@ -35,9 +35,6 @@ class QueueFactory
      */
     private static function createQueueInstance($service, $queue)
     {
-        if (strpos($queue, 'aws:') === 0) {
-            return new SeqQueue($queue);
-        }
         if ($service->hasQueue($queue)) {
             return $service->getQueue($queue);
         }

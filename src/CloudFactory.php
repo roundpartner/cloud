@@ -2,6 +2,8 @@
 
 namespace RoundPartner\Cloud;
 
+use GuzzleHttp\Client;
+
 class CloudFactory
 {
 
@@ -17,6 +19,10 @@ class CloudFactory
     public static function create($username, $apiKey, $secret)
     {
         $client = new Service\Cloud($username, $apiKey);
-        return new Cloud($client, $secret);
+        $awsClient = new Client([
+            'base_uri' => 'http://localhost:6767',
+        ]);
+
+        return new Cloud($client, $awsClient, $secret);
     }
 }
