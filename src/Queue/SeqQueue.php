@@ -70,6 +70,9 @@ class SeqQueue
         if (empty($jsonObject)) {
             return null;
         }
+        if (empty($jsonObject->content)) {
+            return null;
+        }
         return [$jsonObject->content];
     }
 
