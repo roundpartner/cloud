@@ -35,10 +35,11 @@ class TaskFactory
      * @param int $userId
      * @param int $invoiceId
      * @param string $container
+     * @param string $bucket
      *
      * @return Task
      */
-    public static function invoice($userId, $invoiceId, $container = null)
+    public static function invoice($userId, $invoiceId, $container = null, $bucket = null)
     {
         $arguments = array(
             "--user={$userId}",
@@ -47,6 +48,10 @@ class TaskFactory
 
         if ($container) {
             $arguments[] = "--container={$container}";
+        }
+
+        if ($bucket) {
+            $arguments[] = "--bucket={$bucket}";
         }
 
         return self::create(
