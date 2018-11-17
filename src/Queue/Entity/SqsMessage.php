@@ -12,6 +12,10 @@ class SqsMessage
     {
         $object = json_decode($json);
 
+        if (isset($object->Message)) {
+            $object = $object->Message;
+        }
+
         $message = new Task();
         $message->version = $object->version;
         $message->taskName = $object->taskName;
