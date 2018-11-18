@@ -13,7 +13,7 @@ class SqsMessage
         $object = json_decode($json);
 
         if (isset($object->Message)) {
-            $object = $object->Message;
+            $object = json_decode($object->Message);
         }
 
         $message = new Task();
