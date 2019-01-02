@@ -46,6 +46,11 @@ class TaskFactory
             "--invoice={$invoiceId}",
         );
 
+        if (null === $bucket) {
+            $bucket = $container;
+            $container = null;
+        }
+
         if ($container) {
             $arguments[] = "--container={$container}";
         }
@@ -55,7 +60,7 @@ class TaskFactory
         }
 
         return self::create(
-            'pdf invoice [user_id=' . $userId . ', invoiceId=' . $invoiceId . ']',
+            'pdf invoice [user_id=' . $userId . ', invoiceId=' . $invoiceId . ' bucket='. $bucket .']',
             'pdf',
             'invoice',
             $arguments

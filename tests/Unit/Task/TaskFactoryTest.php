@@ -41,8 +41,14 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testInvoice()
     {
-        $invoice = TaskFactory::invoice(42, 456, 'example');
-        $this->assertEquals($invoice->taskName, 'pdf invoice [user_id=42, invoiceId=456]');
+        $invoice = TaskFactory::invoice(42, 456, 'example', 'bucket');
+        $this->assertEquals($invoice->taskName, 'pdf invoice [user_id=42, invoiceId=456 bucket=bucket]');
+    }
+
+    public function testInvoiceWithoutContainer()
+    {
+        $invoice = TaskFactory::invoice(42, 456, 'bucket');
+        $this->assertEquals($invoice->taskName, 'pdf invoice [user_id=42, invoiceId=456 bucket=bucket]');
     }
 
     public function testCloudBackUpAsExcel()
