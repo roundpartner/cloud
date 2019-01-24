@@ -34,26 +34,16 @@ class TaskFactory
      *
      * @param int $userId
      * @param int $invoiceId
-     * @param string $container
      * @param string $bucket
      *
      * @return Task
      */
-    public static function invoice($userId, $invoiceId, $container = null, $bucket = null)
+    public static function invoice($userId, $invoiceId, $bucket = null)
     {
         $arguments = array(
             "--user={$userId}",
             "--invoice={$invoiceId}",
         );
-
-        if (null === $bucket) {
-            $bucket = $container;
-            $container = null;
-        }
-
-        if ($container) {
-            $arguments[] = "--container={$container}";
-        }
 
         if ($bucket) {
             $arguments[] = "--bucket={$bucket}";
