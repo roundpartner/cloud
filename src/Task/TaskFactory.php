@@ -125,22 +125,22 @@ class TaskFactory
 
     /**
      * @param int $userId
-     * @param string $container
+     * @param string $bucket
      * @param string $file
      * @param string $type
      * @param string $jobType
      *
      * @return Task
      */
-    public static function importCustomers($userId, $container, $file, $type, $jobType = '')
+    public static function importCustomers($userId, $bucket, $file, $type, $jobType = '')
     {
         return self::create(
-            'import customers [user_id=' . $userId . ' container=' . $container . ' file=' . $file . ' type=' . $type . ' job_type=' . $jobType . ']',
+            'import customers [user_id=' . $userId . ' bucket=' . $bucket . ' file=' . $file . ' type=' . $type . ' job_type=' . $jobType . ']',
             'import',
             'customers',
             array(
                 "--user={$userId}",
-                "--container={$container}",
+                "--bucket={$bucket}",
                 "--file={$file}",
                 "--type={$type}",
                 "--jobType={$jobType}",
