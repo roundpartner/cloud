@@ -3,6 +3,7 @@
 namespace RoundPartner\Cloud\Queue\Entity;
 
 use RoundPartner\Cloud\Task\Entity\Task;
+use RoundPartner\Cloud\Task\TaskFactory;
 
 class SqsMessage
 {
@@ -16,6 +17,11 @@ class SqsMessage
             $object = json_decode($object->Message);
         }
 
+        $this->task = $this->createTask($object);
+    }
+
+    private function createTask($object)
+    {
         $message = new Task();
         $message->version = $object->version;
         $message->taskName = $object->taskName;
@@ -23,7 +29,10 @@ class SqsMessage
         $message->command = $object->command;
         $message->arguments = $object->arguments;
         $message->action = $object->action;
-        $this->task = $message;
+        if ($object->next) {
+            $message->next = $this->createTask($object->next);
+        }
+        return $message;
     }
 
     public function getBody() {
