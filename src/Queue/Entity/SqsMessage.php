@@ -28,7 +28,7 @@ class SqsMessage
         $message->command = $object->command;
         $message->arguments = $object->arguments;
         $message->action = $object->action;
-        if ($object->next !== null) {
+        if (isset($object->next) && $object->next !== null) {
             $message->next = $this->createTask($object->next);
         }
         return $message;
