@@ -3,7 +3,6 @@
 namespace RoundPartner\Cloud\Queue\Entity;
 
 use RoundPartner\Cloud\Task\Entity\Task;
-use RoundPartner\Cloud\Task\TaskFactory;
 
 class SqsMessage
 {
@@ -29,7 +28,7 @@ class SqsMessage
         $message->command = $object->command;
         $message->arguments = $object->arguments;
         $message->action = $object->action;
-        if ($object->next) {
+        if ($object->next !== null) {
             $message->next = $this->createTask($object->next);
         }
         return $message;
