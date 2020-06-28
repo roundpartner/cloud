@@ -12,7 +12,7 @@ class SqsMessage
     {
         $object = json_decode($json);
 
-        if (isset($object->Message)) {
+        if (isset($object->Message) && $object->Message) {
             $object = json_decode($object->Message);
             if (null === $object) {
                 $msg = json_last_error_msg();
