@@ -14,6 +14,11 @@ class SqsMessage
 
         if (isset($object->Message)) {
             $object = json_decode($object->Message);
+            if (null === $object) {
+                $msg = json_last_error_msg();
+                $obj = $object->Message;
+                throw new \Exception("Json Decode Error: ${msg} from Object: ${obj}");
+            }
         }
 
         $this->task = $this->createTask($object);
