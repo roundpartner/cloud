@@ -25,4 +25,14 @@ class SqsMessageTest extends CloudTestCase
         $sqsMessage = new SqsMessage($json);
         $this->assertEquals('test two', $sqsMessage->task->next->taskName);
     }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Json Decode Error: "Syntax error" from json: "{invalid"
+     */
+    public function testCreateInvalidMessage()
+    {
+        $json = '{"Message":"{invalid"}';
+        $sqsMessage = new SqsMessage($json);
+    }
 }

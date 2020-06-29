@@ -13,11 +13,11 @@ class SqsMessage
         $object = json_decode($json);
 
         if (isset($object->Message) && $object->Message) {
-            $object = json_decode($object->Message);
+            $json = $object->Message;
+            $object = json_decode($json);
             if (null === $object) {
                 $msg = json_last_error_msg();
-                $obj = $object->Message;
-                throw new \Exception("Json Decode Error: ${msg} from Object: ${obj}");
+                throw new \Exception("Json Decode Error: \"${msg}\" from json: \"${json}\"");
             }
         }
 
