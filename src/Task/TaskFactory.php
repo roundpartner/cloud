@@ -179,32 +179,6 @@ class TaskFactory
     }
 
     /**
-     * @param string $username
-     * @param string $account
-     * @param string $email
-     *
-     * @return Task
-     */
-    public static function iftttUserRegistered($username, $account, $email)
-    {
-        $username = self::addQuotes($username);
-        $account = self::addQuotes($account);
-        $email = self::addQuotes($email);
-
-        return self::create(
-            'user registered [user_id=' . $username . ' template=' . $account . ']',
-            'ifttt',
-            'registered',
-            array(
-                "--username={$username}",
-                "--account={$account}",
-                "--email={$email}",
-            ),
-            true
-        );
-    }
-
-    /**
      * @param string $string
      *
      * @return string
