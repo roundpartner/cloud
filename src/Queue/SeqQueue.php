@@ -35,7 +35,10 @@ class SeqQueue
     {
         $body = unserialize($params['body']['serial']);
         $response = $this->client->post('', [
-            'json' => ['content' => json_encode($body)]
+            'json' => [
+                'queue' => str_replace('aws:', '', $this->queue),
+                'content' => json_encode($body),
+            ]
         ]);
         if (204 !== $response->getStatusCode()) {
             return false;
