@@ -4,8 +4,8 @@ namespace RoundPartner\Cloud\Task\Entity;
 
 class Task
 {
-    const HIGH_PRIORITY = 'high';
-    const NORMAL_PRIORITY = 'normal';
+    public const HIGH_PRIORITY = 'high';
+    public const NORMAL_PRIORITY = 'normal';
 
     /**
      * @var string
