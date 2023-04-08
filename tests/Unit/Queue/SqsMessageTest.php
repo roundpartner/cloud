@@ -22,6 +22,7 @@ class SqsMessageTest extends CloudTestCase
     {
         $task = TaskFactory::create('test', 'test', 'test', []);
         $task->next = TaskFactory::create('test 2', 'test2', 'test2', []);
+        $task->setHighPriority();
         $json = json_encode($task);
         $sqsMessage = new SqsMessage($json);
         $this->assertEquals('test', $sqsMessage->task->taskName);
