@@ -4,6 +4,9 @@ namespace RoundPartner\Cloud\Task\Entity;
 
 class Task
 {
+    const HIGH_PRIORITY = 'high';
+    const NORMAL_PRIORITY = 'normal';
+
     /**
      * @var string
      */
@@ -38,4 +41,14 @@ class Task
      * @var Task
      */
     public $next;
+
+    /**
+     * @var string
+     */
+    public $priority;
+
+    public function setHighPriority()
+    {
+        $this->priority = self::HIGH_PRIORITY;
+    }
 }
