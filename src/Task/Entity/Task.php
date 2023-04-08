@@ -47,8 +47,12 @@ class Task
      */
     public $priority;
 
+    /**
+     * @return $this
+     */
     public function setHighPriority()
     {
         $this->priority = self::HIGH_PRIORITY;
+        return $this;
     }
 }
