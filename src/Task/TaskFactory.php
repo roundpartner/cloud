@@ -26,7 +26,7 @@ class TaskFactory
         $task->arguments = $arguments;
         $task->fork = $fork;
         $task->version = self::DEFAULT_VERSION;
-        $task->priority = $task::NORMAL_PRIORITY;
+        $task->priority = Task::NORMAL_PRIORITY;
         return $task;
     }
 
