@@ -25,7 +25,7 @@ class TaskFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testTaskHasAVersion()
     {
-        $this->assertEquals(1, $this->task->version);
+        $this->assertEquals(5, $this->task->version);
     }
 
     public function testCreateDoesNotForkByDefault()
