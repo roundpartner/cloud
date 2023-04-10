@@ -33,7 +33,11 @@ class SqsMessage
         $message->command = $object->command;
         $message->arguments = $object->arguments;
         $message->action = $object->action;
-        $message->priority = $object->priority;
+        if (isset($object->priority)) {
+            $message->priority = $object->priority;
+        } else {
+            $message->priority = Task::NORMAL_PRIORITY;
+        }
         if (isset($object->next) && $object->next !== null) {
             $message->next = $this->createTask($object->next);
         }
