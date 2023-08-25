@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/roundpartner/cloud.svg?branch=master)](https://travis-ci.org/roundpartner/cloud)
 # Cloud
 Cloud Service for RoundPartner
 
