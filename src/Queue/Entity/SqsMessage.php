@@ -8,7 +8,7 @@ class SqsMessage
 {
     public $task;
 
-    function __construct($json)
+    public function __construct($json)
     {
         $object = json_decode($json);
 

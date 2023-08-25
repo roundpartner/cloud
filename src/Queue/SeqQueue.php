@@ -19,7 +19,7 @@ class SeqQueue
      * @param \GuzzleHttp\Client $client
      * @param string $queue
      */
-    function __construct(Client $client, $queue)
+    public function __construct(Client $client, $queue)
     {
         $this->queue = $queue;
         $this->client = $client;

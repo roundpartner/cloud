@@ -18,11 +18,13 @@ interface QueueInterface
     /**
      * @param int $limit
      * @param int $grace
-     * @param int ttl
+     * @param int $ttl
      *
      * @return \RoundPartner\Cloud\Message\Message[]
      *
      * @throws \Exception
      */
-    public function getMessages($limit = Claim::LIMIT_DEFAULT, $grace = CLAIM::GRACE_DEFAULT, $ttl = CLAIM::TTL_DEFAULT);
+    public function getMessages($limit = Claim::LIMIT_DEFAULT,
+                                $grace = CLAIM::GRACE_DEFAULT,
+                                $ttl = CLAIM::TTL_DEFAULT);
 }

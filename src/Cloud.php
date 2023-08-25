@@ -80,9 +80,18 @@ class Cloud implements CloudInterface
         }
         if (!isset($this->queueServices[$queue])) {
             if (strpos($queue, 'aws:') === 0) {
-                $this->queueServices[$queue] = AwsQueueFactory::create($this->awsClient, $this->secret, $queue, $serviceName, $region);
+                $this->queueServices[$queue] = AwsQueueFactory::create(
+                    $this->awsClient,
+                    $this->secret, $queue,
+                    $serviceName,
+                    $region);
             } else {
-                $this->queueServices[$queue] = QueueFactory::create($this->client, $this->secret, $queue, $serviceName, $region);
+                $this->queueServices[$queue] = QueueFactory::create(
+                    $this->client,
+                    $this->secret,
+                    $queue,
+                    $serviceName,
+                    $region);
             }
         }
         return $this->queueServices[$queue];
