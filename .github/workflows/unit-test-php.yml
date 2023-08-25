@@ -22,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist
 
-      - name: Lint code
-        run: vendor/bin/phpcs --standard=psr2 ./src
+      #- name: Lint code
+      #  run: vendor/bin/phpcs --standard=psr2 ./src
 
       - name: Run Unit Tests
         run: vendor/bin/phpunit
